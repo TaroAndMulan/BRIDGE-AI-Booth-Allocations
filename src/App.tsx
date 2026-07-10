@@ -124,8 +124,9 @@ export default function App() {
           Booth <span className="accent">Allocations</span>
         </h1>
         <p className="section-sub">
-          Search for your team by team name, project name, team leader, or booth number. If your team
-          appears here, it has passed the entrance qualification round.
+          Search for your team by team name, project title, team leader, or booth number.
+          Teams listed here have been selected for the Exhibition Round. Please note your
+          assigned booth number for poster preparation and on-site registration.
         </p>
 
         <div className="doc-cards">
