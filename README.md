@@ -64,30 +64,31 @@ Both render as `DocumentCard`s stacked below the page intro: the announcement a 
 first, then the manual it acts on.
 
 Neither "PDF · 2.1 MB · 15 หน้า" line is hardcoded: `vite.config.ts` reads the byte size and page
-count out of each PDF at build time and injects them as `__MANUAL_SIZE__`, `__MANUAL_PAGES__`,
-`__TEAM_LIST_SIZE__`, and `__TEAM_LIST_PAGES__`, so replacing a file updates its label automatically.
+count out of each PDF at build time. It also hashes the bytes, and `src/documents.ts` appends that
+hash to the URL (`/manual.pdf?v=3e02d746`). Vite content-hashes the JS and CSS filenames, but
+`public/` files keep stable URLs and `deploy.sh` scp's over them in place — without the hash a
+browser could keep serving a cached copy of the old manual, deadlines and all. The query changes
+only when the file's contents change; the server ignores it and serves the same file.
 
-### Replacing the team list
+### Replacing a PDF
 
-Copy it straight in — it is a text PDF, and re-encoding makes it larger:
+Drop the new file in `data/`, then produce the `public/` copy. **Check that re-encoding actually
+shrinks it** — Ghostscript re-encodes images, so it only helps an image-heavy PDF and will *inflate*
+a text one.
 
 ```bash
+# Manual: image-heavy master, 13.1 MB -> 2.1 MB with no visible loss and identical text.
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.5 -dPDFSETTINGS=/printer \
+   -dNOPAUSE -dQUIET -dBATCH -sOutputFile=public/manual.pdf data/manual.pdf
+
+# Team list: a text PDF. /printer makes it bigger (476 KB -> 497 KB), so copy it verbatim.
 cp data/team_list.pdf public/team-list.pdf
 ```
 
-### Replacing the manual
+Then `./deploy.sh`. No source file changes: the labels and the cache-busting hash all follow the
+new bytes. Only the `public/` copies are committed; `data/*.pdf` is gitignored as the master.
 
-Drop the new PDF in `data/manual.pdf` and re-encode it into `public/`:
-
-```bash
-gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.5 -dPDFSETTINGS=/printer \
-   -dNOPAUSE -dQUIET -dBATCH -sOutputFile=public/manual.pdf data/manual.pdf
-```
-
-The manual is image-heavy: this cuts 13.1 MB to 2.1 MB with no visible loss and identical selectable
-text. Only the re-encoded copy is committed; `data/manual.pdf` is gitignored as the print master.
-Do not skip this step — PDFs are already internally compressed, so gzip on the server saves nothing
-and users would download the full file.
+Do not rely on gzip to shrink a PDF on the server — they are already internally compressed.
 
 ### Expected columns
 

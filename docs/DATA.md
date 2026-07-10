@@ -158,8 +158,10 @@ Both are rendered by the same `DocumentCard`, stacked below the page intro in th
 Nothing else. The workbook and both source PDFs stay in `data/`, which is gitignored and never
 served.
 
-Each download's size and page count are read off the file in `vite.config.ts` at build time, so
-replacing a PDF updates its label with no code change.
+Each download's size, page count, and a hash of its bytes are read off the file in `vite.config.ts`
+at build time, so replacing a PDF updates its label with no code change. The hash goes on the URL as
+`?v=…`, because `public/` files keep stable names and would otherwise be served from a stale browser
+cache after a redeploy.
 
 The rows are not clickable and there is no detail view — every public field is already in the table.
 
