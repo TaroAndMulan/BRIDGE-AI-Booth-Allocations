@@ -1,0 +1,809 @@
+/* ───────────────────────────────────────────────────────────────────────────
+   BRIDGE-AI Summit 2026 — visual identity
+   Design tokens, fixed navigation bar, section headers, buttons, and the
+   booth-search UI, lifted from the original summit site's bespoke CSS.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Colors */
+  --navy: #011023;
+  --blue: #849abe;
+  --peach: #fd906e;
+  --rose: #aa6469;
+  --cream: #ffe1a0;
+  --silver: #e6e6e6;
+  --ink: #00142b;
+  --muted: #647586;
+  --paper: #ffffff;
+  --line: rgba(0, 20, 43, 0.1);
+
+  /* University identity */
+  --cornell: #b31b1b;
+  --chula: #de5c8e;
+
+  /* Darker, contrast-safe colors for text on light backgrounds */
+  --blue-dark: #2c5380;
+  --rose-dark: #8c4b50;
+  --peach-dark: #bf6850;
+
+  /* Spacing & Layout */
+  --topbar: 92px;
+
+  /* Radii */
+  --r-sm: 10px;
+  --r-md: 24px;
+  --r-lg: 30px;
+  --r-pill: 999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 20, 43, 0.04);
+  --shadow-sm: 0 4px 12px rgba(0, 20, 43, 0.05);
+  --shadow-md: 0 8px 24px rgba(0, 20, 43, 0.08);
+  --shadow-lg: 0 20px 48px rgba(0, 20, 43, 0.12);
+
+  /* Typography */
+  --font-sans: "Inter", Arial, Helvetica, sans-serif;
+  --font-display: "Inter", Arial, Helvetica, sans-serif;
+  --font-serif: "Playfair Display", "Times New Roman", Times, serif;
+  --tracking-display: -0.04em;
+  --tracking-eyebrow: 0.14em;
+
+  /* Extras used by the pieces below */
+  --white: #ffffff;
+  --navy-900: #011023;
+  --muted-strong: #4a5a6a;
+  --line-strong: rgba(0, 20, 43, 0.18);
+  --focus: #fd906e;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  padding-top: var(--topbar);
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11", "kern";
+  font-size: 16px;
+  line-height: 1.65;
+  position: relative;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: rgba(0, 20, 43, 0.1);
+}
+
+/* Soft peach / blue corner glows behind everything */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(1200px 600px at 15% 0%, rgba(252, 175, 151, 0.06), transparent 60%),
+    radial-gradient(900px 500px at 85% 100%, rgba(126, 155, 191, 0.06), transparent 60%);
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* ─── Fixed navigation bar ───────────────────────────────────────────────── */
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.site-nav.is-scrolled {
+  box-shadow: 0 4px 20px rgba(0, 20, 43, 0.05);
+}
+
+.nav-inner {
+  max-width: 1440px;
+  min-height: var(--topbar);
+  margin: 0 auto;
+  padding: 12px max(28px, env(safe-area-inset-right)) 12px max(28px, env(safe-area-inset-left));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  min-width: 0;
+}
+
+/* Capped because the logos are remote: if they fail to load, the alt text would
+   otherwise size the box and blow the nav past the viewport. */
+.brand-logo {
+  height: 52px;
+  width: auto;
+  max-width: 210px;
+  object-fit: contain;
+  overflow: hidden;
+  display: block;
+  flex-shrink: 0;
+}
+
+@media (max-width: 860px) {
+  /* Must track .nav-inner's min-height, or body's padding leaves a dead gap. */
+  :root {
+    --topbar: 64px;
+  }
+  .nav-inner {
+    padding: 10px 16px;
+    gap: 10px;
+    min-height: 64px;
+  }
+  .brand-logo {
+    height: 34px;
+    max-width: 34vw;
+  }
+}
+
+/* ─── Section headers ────────────────────────────────────────────────────── */
+.eyebrow {
+  display: block;
+  margin: 0 0 10px 0;
+  color: var(--peach-dark);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+}
+
+.rule {
+  width: 72px;
+  height: 3px;
+  background: var(--cornell);
+  border-radius: var(--r-pill);
+  margin: 0 0 18px 0;
+}
+
+.section-title {
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4.4vw, 46px);
+  line-height: 1.1;
+  letter-spacing: var(--tracking-display);
+  margin: 0 0 14px;
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+.section-title .accent {
+  color: var(--peach);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.section-sub {
+  color: var(--muted-strong);
+  font-size: 17px;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+/* ─── Booth-search UI (summit palette) ───────────────────────────────────── */
+.booth-shell {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: clamp(36px, 6vh, 64px) max(20px, env(safe-area-inset-left)) 80px;
+}
+
+/* ─── PDF downloads ──────────────────────────────────────────────────────── */
+.doc-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 32px 0;
+}
+
+/* A whole-card link: everything inside is decoration, so there is one target. */
+.doc-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--paper);
+  box-shadow: var(--shadow-xs);
+  text-decoration: none;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+}
+
+.doc-card:hover {
+  border-color: var(--peach);
+  background: rgba(252, 144, 110, 0.04);
+  box-shadow: var(--shadow-sm);
+}
+
+.doc-card-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--r-sm);
+  color: var(--peach-dark);
+  background: rgba(252, 144, 110, 0.12);
+}
+
+.doc-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.doc-card-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Thai leads: it is the document's own title. */
+.doc-card-title {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--navy);
+}
+
+.doc-card-sub {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--muted-strong);
+}
+
+.doc-card-action {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+/*
+ * Not a <button>: the enclosing card is the link. This is what it looks like.
+ * Same treatment as .chip.active — a near-white peach tint under a peach-dark
+ * border. Navy text is 17.9:1 on the tint; the border is peach-dark rather than
+ * peach because 3.95:1 clears the 3:1 floor for a UI edge and 2.24:1 would not.
+ */
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border: 1px solid var(--peach-dark);
+  border-radius: var(--r-pill);
+  background: rgba(252, 144, 110, 0.08);
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background 0.16s ease, box-shadow 0.16s ease;
+}
+
+.btn-download svg {
+  color: var(--peach-dark);
+}
+
+/* The ring only appears on hover, so the resting card stays calm. */
+.doc-card:hover .btn-download {
+  background: rgba(252, 144, 110, 0.16);
+  box-shadow: 0 0 0 3px rgba(252, 144, 110, 0.2);
+}
+
+/* Spells out what arrives, so the download holds no surprises. */
+.doc-card-meta {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .doc-card {
+    /* The text block is several lines tall here; a centred icon would float. */
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 16px 18px;
+  }
+  .doc-card-icon {
+    width: 42px;
+    height: 42px;
+  }
+  .doc-card-text {
+    /* Sit beside the icon, then let the action take the full row below. */
+    flex-basis: 0;
+    min-width: 60%;
+  }
+  .doc-card-action {
+    width: 100%;
+    align-items: stretch;
+  }
+  .doc-card-action .btn-download {
+    width: 100%;
+  }
+  .doc-card-meta {
+    text-align: center;
+  }
+}
+
+.booth-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+
+/* Search field */
+.search-field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.search-field svg {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  height: 54px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--paper);
+  padding: 0 20px 0 46px;
+  font-size: 15px;
+  color: var(--ink);
+  box-shadow: var(--shadow-xs);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.search-input::placeholder {
+  color: var(--muted);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--peach);
+  box-shadow: 0 0 0 4px rgba(252, 144, 110, 0.16);
+}
+
+/* A labelled control row inside the toolbar: "Category [chips]", "Sort by [select]". */
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.toolbar-label {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Category is a filter on this page, not a destination, so it lives here at every width. */
+.toolbar-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--muted-strong);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.chip:hover {
+  border-color: var(--peach);
+  background: rgba(252, 144, 110, 0.06);
+  color: var(--navy);
+}
+
+/*
+ * Selection reads as a peach ring on a near-white tint, not a filled navy pill.
+ * Text stays navy (17.9:1) because peach on white is only 3.95:1 — too low for
+ * 13px text. The border is peach-dark, not peach: at 3.95:1 it clears the 3:1
+ * floor for a UI indicator, where plain peach (2.24:1) would not. The ring is a
+ * shape cue, so selection is not signalled by colour alone — and unlike a bolder
+ * weight it does not change the chip's width and re-wrap the row on tap.
+ */
+.chip.active {
+  background: rgba(252, 144, 110, 0.08);
+  border-color: var(--peach-dark);
+  color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(252, 144, 110, 0.2);
+}
+
+.chip.active:hover {
+  background: rgba(252, 144, 110, 0.13);
+}
+
+.chip svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* A touch of the accent, on an icon where 3:1 is the bar rather than 4.5:1. */
+.chip.active svg {
+  color: var(--peach-dark);
+}
+
+/* Results panel */
+.booth-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.booth-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.booth-table thead th {
+  text-align: left;
+  padding: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: #fafbfc;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+/* The button fills the header cell so the whole cell is the click target. */
+.sort-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 18px 22px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  transition: color 0.15s ease;
+}
+
+.sort-btn:hover,
+.sort-btn.is-active {
+  color: var(--navy);
+}
+
+.sort-btn:focus-visible {
+  outline: 2px solid var(--peach);
+  outline-offset: -2px;
+}
+
+/* The idle up/down glyph is a hint, not a state; it stays quiet until hover. */
+.sort-icon {
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.sort-btn:hover .sort-icon,
+.sort-btn:focus-visible .sort-icon,
+.sort-btn.is-active .sort-icon {
+  opacity: 1;
+}
+
+.sort-btn.is-active .sort-icon {
+  color: var(--peach-dark);
+}
+
+.booth-table tbody tr {
+  border-bottom: 1px solid var(--line);
+  transition: background 0.15s ease;
+}
+
+.booth-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* Rows are not clickable; the tint only helps the eye track across a wide row. */
+.booth-table tbody tr:hover {
+  background: rgba(252, 144, 110, 0.06);
+}
+
+.booth-table td {
+  padding: 16px 22px;
+  vertical-align: top;
+}
+
+/* Booth, category, and track never wrap; the team cell absorbs the slack. */
+.booth-table th:first-child,
+.booth-table td:first-child,
+.booth-table .col-narrow {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.booth-cell {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+.project-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+/*
+ * Names run to ~330 characters. They wrap rather than clamp: there is no detail
+ * view any more, so clamped text would be unreadable anywhere. Thai has no word
+ * spaces, hence overflow-wrap.
+ */
+.booth-table .project-name {
+  max-width: 58ch;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.project-sub {
+  margin-top: 5px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+  max-width: 64ch;
+  overflow-wrap: anywhere;
+}
+
+.leader-cell {
+  font-size: 14px;
+  color: var(--muted-strong);
+  max-width: 26ch;
+  overflow-wrap: anywhere;
+}
+
+/* Category and track are plain, unstyled text in their own columns. */
+.cat-cell,
+.track-cell {
+  font-size: 14px;
+  color: var(--muted-strong);
+}
+
+.result-count {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.empty-state {
+  padding: 72px 24px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--peach-dark);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.link-btn:hover {
+  color: var(--rose-dark);
+}
+
+/* ─── Mobile sort control ────────────────────────────────────────────────── */
+/* Hidden on desktop, where the column headers do the sorting. */
+.mobile-sort {
+  display: none;
+  flex-wrap: nowrap;
+}
+
+.mobile-sort-select {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+  color: var(--navy);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mobile-sort-select:focus-visible {
+  outline: 2px solid var(--peach);
+  outline-offset: -1px;
+}
+
+/* ─── Compact layout: the table becomes a list of cards ──────────────────── */
+/* 860px matches the nav's compact breakpoint. Below it a 5-column table needs
+   horizontal scrolling, which a booth lookup should never require. */
+@media (max-width: 860px) {
+  .booth-shell {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+
+  .mobile-sort {
+    display: flex;
+  }
+
+  /* The panel is just a wrapper now; each row carries its own card border. */
+  .booth-panel {
+    border: none;
+    background: none;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .booth-panel > div {
+    overflow-x: visible !important;
+  }
+
+  /* Sortable headers are unreachable here, so .mobile-sort replaces them. */
+  .booth-table thead {
+    display: none;
+  }
+
+  .booth-table,
+  .booth-table tbody,
+  .booth-table tr,
+  .booth-table td {
+    display: block;
+    width: auto;
+  }
+
+  .booth-table tr {
+    margin-bottom: 12px;
+    padding: 16px 18px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--paper);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .booth-table tbody tr:hover {
+    background: var(--paper);
+  }
+
+  /* Undo the desktop column sizing, which would squeeze the card contents. */
+  .booth-table td,
+  .booth-table td:first-child,
+  .booth-table .col-narrow {
+    width: auto;
+    padding: 0;
+    white-space: normal;
+  }
+
+  .booth-table .project-name,
+  .project-sub,
+  .leader-cell {
+    max-width: none;
+  }
+
+  .cell-booth {
+    margin-bottom: 6px;
+  }
+
+  .booth-cell {
+    font-size: 19px;
+  }
+
+  .cell-team {
+    padding-bottom: 12px !important;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--line) !important;
+  }
+
+  /* Leader, Category, and Track become labelled rows inside the card. */
+  .booth-table td[data-label] {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 8px !important;
+  }
+
+  .booth-table td[data-label]::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .booth-table td[data-label] > div {
+    text-align: right;
+  }
+
+  .empty-state {
+    padding: 56px 16px;
+  }
+}

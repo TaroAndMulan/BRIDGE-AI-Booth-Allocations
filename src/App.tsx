@@ -1,193 +1,242 @@
-import React, { useState, useMemo } from 'react';
-import { Search, MapPin, ChevronRight, ChevronDown, Activity, Stethoscope, MonitorSmartphone, BrainCircuit, Download, X, Mail } from 'lucide-react';
-import { MOCK_PROJECTS, CATEGORIES, Project } from './data';
+import { useMemo, useState } from 'react';
+import {
+  Search,
+  ChevronsUpDown,
+  ArrowUp,
+  ArrowDown,
+  ClipboardList,
+  FileText,
+  Activity,
+  Stethoscope,
+  MonitorSmartphone,
+  BrainCircuit,
+  LayoutGrid,
+} from 'lucide-react';
+import { TEAMS, CATEGORIES, categoryLabel } from './data';
+import { MANUAL, TEAM_LIST } from './documents';
+import { createTeamSearch } from './search';
+import { sortTeams, nextSort, type Sort, type SortKey } from './sort';
+import Nav from './components/Nav';
+import DocumentCard from './components/DocumentCard';
+
+const CHIP_ITEMS = [
+  { label: 'All', value: 'All', Icon: LayoutGrid },
+  { label: categoryLabel(CATEGORIES.A), value: CATEGORIES.A, Icon: Activity },
+  { label: categoryLabel(CATEGORIES.B), value: CATEGORIES.B, Icon: Stethoscope },
+  { label: categoryLabel(CATEGORIES.C), value: CATEGORIES.C, Icon: MonitorSmartphone },
+  { label: categoryLabel(CATEGORIES.D), value: CATEGORIES.D, Icon: BrainCircuit },
+];
+
+/** Phones get cards instead of a table, so the sortable headers are unreachable there. */
+const SORT_OPTIONS: { label: string; value: string }[] = [
+  { label: 'Default order', value: 'default' },
+  { label: 'Booth, ascending', value: 'booth:asc' },
+  { label: 'Booth, descending', value: 'booth:desc' },
+  { label: 'Team name, ascending', value: 'teamName:asc' },
+  { label: 'Team name, descending', value: 'teamName:desc' },
+  { label: 'Team leader, ascending', value: 'teamLeader:asc' },
+  { label: 'Team leader, descending', value: 'teamLeader:desc' },
+  { label: 'Category, A to D', value: 'category:asc' },
+  { label: 'Category, D to A', value: 'category:desc' },
+  { label: 'Track, Rising first', value: 'track:asc' },
+  { label: 'Track, Advanced first', value: 'track:desc' },
+];
+
+function serializeSort(sort: Sort | null): string {
+  return sort ? `${sort.key}:${sort.direction}` : 'default';
+}
+
+function parseSort(value: string): Sort | null {
+  if (value === 'default') return null;
+  const [key, direction] = value.split(':');
+  return { key: key as SortKey, direction: direction as Sort['direction'] };
+}
+
+type SortHeaderProps = {
+  label: string;
+  sortKey: SortKey;
+  sort: Sort | null;
+  onSort: (key: SortKey) => void;
+  className?: string;
+};
+
+function SortHeader({ label, sortKey, sort, onSort, className }: SortHeaderProps) {
+  const isActive = sort?.key === sortKey;
+  const ariaSort = isActive
+    ? (sort.direction === 'asc' ? 'ascending' : 'descending')
+    : 'none';
+
+  return (
+    <th className={className} aria-sort={ariaSort}>
+      <button
+        type="button"
+        className={`sort-btn${isActive ? ' is-active' : ''}`}
+        onClick={() => onSort(sortKey)}
+      >
+        {label}
+        {!isActive && <ChevronsUpDown size={13} className="sort-icon" aria-hidden />}
+        {isActive && sort.direction === 'asc' && <ArrowUp size={13} className="sort-icon" aria-hidden />}
+        {isActive && sort.direction === 'desc' && <ArrowDown size={13} className="sort-icon" aria-hidden />}
+      </button>
+    </th>
+  );
+}
 
 export default function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [sort, setSort] = useState<Sort | null>(null);
 
-  const filteredProjects = useMemo(() => {
-    return MOCK_PROJECTS.filter(project => {
-      const matchesSearch = 
-        project.projectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        project.owners.some(owner => owner.fullName.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        project.booth.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      const matchesCategory = selectedCategory === 'All' || project.category === selectedCategory;
+  // Sort before searching: the search keeps literal matches in the order it is given.
+  const visibleTeams = useMemo(() => {
+    const inCategory = TEAMS.filter(
+      (team) => selectedCategory === 'All' || team.category === selectedCategory,
+    );
+    return sortTeams(inCategory, sort);
+  }, [selectedCategory, sort]);
 
-      return matchesSearch && matchesCategory;
-    });
-  }, [searchTerm, selectedCategory]);
+  const searchTeams = useMemo(() => createTeamSearch(visibleTeams), [visibleTeams]);
+
+  const filteredTeams = useMemo(
+    () => searchTeams(searchTerm),
+    [searchTeams, searchTerm],
+  );
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setSelectedCategory('All');
+  };
+
+  const handleSort = (key: SortKey) => setSort((current) => nextSort(current, key));
+
+  // A filtered-to-one-value column would repeat the same cell on every row.
+  const showCategoryColumn = selectedCategory === 'All';
+  const columnCount = showCategoryColumn ? 5 : 4;
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Booth Allocations</h1>
-              <p className="text-sm text-gray-500 mt-1">Search and find your project booth</p>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
-              {/* Top Navigation / Filters visual representation */}
-              <div className="hidden lg:flex space-x-1 bg-gray-100 p-1 rounded-lg">
-                <button 
-                  onClick={() => setSelectedCategory('All')}
-                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${selectedCategory === 'All' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'}`}
-                >
-                  All
-                </button>
-                <button 
-                  onClick={() => setSelectedCategory(CATEGORIES.A)}
-                  className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${selectedCategory === CATEGORIES.A ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'}`}
-                >
-                  <Activity className="w-4 h-4" />
-                  <span>Medical Ed</span>
-                </button>
-                <button 
-                   onClick={() => setSelectedCategory(CATEGORIES.B)}
-                  className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${selectedCategory === CATEGORIES.B ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'}`}
-                >
-                  <Stethoscope className="w-4 h-4" />
-                  <span>Clinical</span>
-                </button>
-                 <button 
-                   onClick={() => setSelectedCategory(CATEGORIES.C)}
-                  className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${selectedCategory === CATEGORIES.C ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'}`}
-                >
-                  <MonitorSmartphone className="w-4 h-4" />
-                  <span>Digital Tech</span>
-                </button>
-                 <button 
-                   onClick={() => setSelectedCategory(CATEGORIES.D)}
-                  className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${selectedCategory === CATEGORIES.D ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'}`}
-                >
-                  <BrainCircuit className="w-4 h-4" />
-                  <span>Medical AI</span>
-                </button>
-              </div>
+    <>
+      <Nav />
 
-              <button className="inline-flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                <Download className="w-4 h-4" />
-                <span>Preparation Guide</span>
-              </button>
-            </div>
-          </div>
+      <main className="booth-shell" id="top">
+        <p className="eyebrow">BRIDGE-AI Summit 2026</p>
+        <div className="rule" />
+        <h1 className="section-title">
+          Booth <span className="accent">Allocations</span>
+        </h1>
+        <p className="section-sub">
+          Search for your team by team name, project name, team leader, or booth number. If your team
+          appears here, it has passed the entrance qualification round.
+        </p>
+
+        <div className="doc-cards">
+          <DocumentCard
+            doc={TEAM_LIST}
+            Icon={ClipboardList}
+            eyebrow="ประกาศผลอย่างเป็นทางการ · Official announcement"
+            title="ประกาศรายชื่อทีมที่ผ่านการคัดเลือกเข้าสู่รอบนิทรรศการ"
+            subtitle="Qualifying Teams — all 90 booths, grouped by award and track"
+          />
+          <DocumentCard
+            doc={MANUAL}
+            Icon={FileText}
+            eyebrow="สำหรับทีมที่ผ่านการคัดเลือก · For qualifying teams"
+            title="คู่มือการจัดแสดงผลงานนิทรรศการ"
+            subtitle="Exhibition Preparation Guide — deadlines, poster spec, and the on-site schedule"
+          />
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        
-        {/* Search and Mobile Filter */}
-        <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 mb-6">
-          <div className="flex-1 relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
-            </div>
+        <div className="booth-toolbar">
+          <label className="search-field">
+            <Search aria-hidden />
             <input
+              className="search-input"
               type="text"
-              placeholder="Search by project name, owner, or booth number (e.g. A01)..."
-              className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-shadow"
+              placeholder="Search by team, project, leader, or booth…"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              aria-label="Search teams"
             />
-          </div>
+          </label>
 
-          <div className="relative md:w-64 lg:hidden">
-            <select
-              className="block w-full pl-3 pr-10 py-2.5 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-lg appearance-none bg-white transition-shadow"
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-            >
-              <option value="All">All Categories</option>
-              <option value={CATEGORIES.A}>Medical Education (A)</option>
-              <option value={CATEGORIES.B}>Clinical (B)</option>
-              <option value={CATEGORIES.C}>Digital Technology (C)</option>
-              <option value={CATEGORIES.D}>Medical AI (D)</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-              <ChevronDown className="h-4 w-4" />
+          <div className="toolbar-row">
+            <span className="toolbar-label" id="category-filter-label">Category</span>
+            <div className="toolbar-chips" role="group" aria-labelledby="category-filter-label">
+              {CHIP_ITEMS.map(({ label, value, Icon }) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={`chip${selectedCategory === value ? ' active' : ''}`}
+                  aria-pressed={selectedCategory === value}
+                  onClick={() => setSelectedCategory(value)}
+                >
+                  <Icon aria-hidden />
+                  {label}
+                </button>
+              ))}
             </div>
           </div>
+
+          <label className="toolbar-row mobile-sort">
+            <span className="toolbar-label">Sort by</span>
+            <select
+              className="mobile-sort-select"
+              value={serializeSort(sort)}
+              onChange={(e) => setSort(parseSort(e.target.value))}
+            >
+              {SORT_OPTIONS.map(({ label, value }) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
+            </select>
+          </label>
         </div>
 
-        {/* Table */}
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50/50">
+        <div className="booth-panel">
+          <div style={{ overflowX: 'auto' }}>
+            <table className="booth-table">
+              <thead>
                 <tr>
-                  <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
-                    Booth
-                  </th>
-                  <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Project Name
-                  </th>
-                  <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Owner(s)
-                  </th>
-                  <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider hidden md:table-cell">
-                    Category
-                  </th>
-                  <th scope="col" className="relative px-6 py-4">
-                    <span className="sr-only">Details</span>
-                  </th>
+                  <SortHeader label="Booth" sortKey="booth" sort={sort} onSort={handleSort} />
+                  <SortHeader label="Team & Project" sortKey="teamName" sort={sort} onSort={handleSort} />
+                  <SortHeader label="Team Leader" sortKey="teamLeader" sort={sort} onSort={handleSort} />
+                  {showCategoryColumn && (
+                    <SortHeader label="Category" sortKey="category" sort={sort} onSort={handleSort} className="col-narrow" />
+                  )}
+                  <SortHeader label="Track" sortKey="track" sort={sort} onSort={handleSort} className="col-narrow" />
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-100">
-                {filteredProjects.map((project) => (
-                  <tr key={project.id} className="hover:bg-gray-50/80 transition-colors group cursor-pointer" onClick={() => setSelectedProject(project)}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center space-x-2">
-                        <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-full text-xs font-semibold bg-white text-gray-800 border border-gray-200 shadow-sm min-w-[3rem]">
-                          {project.booth}
-                        </span>
-                        <MapPin className="w-4 h-4 text-gray-400" />
-                      </div>
+              <tbody>
+                {filteredTeams.map((team) => (
+                  <tr key={team.id}>
+                    <td className="cell-booth">
+                      <div className="booth-cell">{team.booth}</div>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">{project.projectName}</div>
-                      {/* Mobile category badge */}
-                      <div className="mt-1 md:hidden">
-                        <span className="inline-flex items-center text-xs text-gray-500">
-                           {project.category}
-                        </span>
-                      </div>
+                    <td className="cell-team">
+                      <div className="project-name">{team.teamName}</div>
+                      <div className="project-sub">{team.projectName}</div>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm text-gray-600 line-clamp-2">
-                        {project.owners.map(o => o.fullName).join(', ')}
-                      </div>
+                    <td data-label="Team Leader">
+                      <div className="leader-cell">{team.teamLeader}</div>
                     </td>
-                     <td className="px-6 py-4 whitespace-nowrap hidden md:table-cell">
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium
-                        ${project.category === CATEGORIES.A ? 'bg-indigo-50 text-indigo-700 ring-1 ring-inset ring-indigo-700/10' : ''}
-                        ${project.category === CATEGORIES.B ? 'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/10' : ''}
-                        ${project.category === CATEGORIES.C ? 'bg-purple-50 text-purple-700 ring-1 ring-inset ring-purple-700/10' : ''}
-                        ${project.category === CATEGORIES.D ? 'bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-700/10' : ''}
-                      `}>
-                        {project.category}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-gray-500 transition-colors ml-auto" />
+                    {showCategoryColumn && (
+                      <td className="col-narrow" data-label="Category">
+                        <div className="cat-cell">{categoryLabel(team.category)}</div>
+                      </td>
+                    )}
+                    <td className="col-narrow" data-label="Track">
+                      <div className="track-cell">{team.track}</div>
                     </td>
                   </tr>
                 ))}
-                {filteredProjects.length === 0 && (
+                {filteredTeams.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="px-6 py-16 text-center">
-                      <Search className="w-8 h-8 text-gray-300 mx-auto mb-3" />
-                      <p className="text-gray-500 text-sm">No projects found matching your criteria.</p>
-                      <button 
-                        onClick={() => { setSearchTerm(''); setSelectedCategory('All'); }}
-                        className="mt-4 text-sm text-blue-600 hover:text-blue-800 font-medium"
-                      >
-                        Clear filters
-                      </button>
+                    <td colSpan={columnCount}>
+                      <div className="empty-state">
+                        <Search size={30} style={{ color: 'var(--line-strong)', margin: '0 auto 12px' }} />
+                        <p style={{ margin: '0 0 14px' }}>No teams match your search.</p>
+                        <button type="button" className="link-btn" onClick={clearFilters}>
+                          Clear filters
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 )}
@@ -195,66 +244,11 @@ export default function App() {
             </table>
           </div>
         </div>
-        
-        <div className="mt-6 text-center text-xs text-gray-400">
-          Showing {filteredProjects.length} result{filteredProjects.length !== 1 ? 's' : ''}
-        </div>
-      </div>
 
-      {/* Modal Overlay */}
-      {selectedProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-6">
-                <div className="flex items-center space-x-3">
-                  <span className="inline-flex items-center justify-center px-3 py-1 rounded-full text-sm font-bold bg-gray-100 text-gray-800">
-                    Booth {selectedProject.booth}
-                  </span>
-                  <span className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 cursor-pointer transition-colors">
-                    <MapPin className="w-4 h-4 mr-1" /> View on map
-                  </span>
-                </div>
-                <button onClick={() => setSelectedProject(null)} className="text-gray-400 hover:text-gray-600 transition-colors bg-gray-100 hover:bg-gray-200 rounded-full p-2">
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">{selectedProject.projectName}</h2>
-              <div className="mb-8">
-                <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium
-                    ${selectedProject.category === CATEGORIES.A ? 'bg-indigo-50 text-indigo-700 ring-1 ring-inset ring-indigo-700/10' : ''}
-                    ${selectedProject.category === CATEGORIES.B ? 'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/10' : ''}
-                    ${selectedProject.category === CATEGORIES.C ? 'bg-purple-50 text-purple-700 ring-1 ring-inset ring-purple-700/10' : ''}
-                    ${selectedProject.category === CATEGORIES.D ? 'bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-700/10' : ''}
-                  `}>
-                  {selectedProject.category}
-                </span>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Project Owners</h3>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {selectedProject.owners.map((owner, idx) => (
-                    <div key={idx} className="flex items-start space-x-4 p-4 rounded-xl border border-gray-100 bg-gray-50/50 hover:bg-gray-50 transition-colors">
-                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg shadow-inner">
-                        {owner.fullName.charAt(0)}
-                      </div>
-                      <div className="min-w-0">
-                        <div className="font-semibold text-gray-900 truncate" title={owner.fullName}>{owner.fullName}</div>
-                        <div className="flex items-center text-sm text-gray-500 mt-1 truncate" title={owner.email}>
-                          <Mail className="w-4 h-4 mr-1.5 flex-shrink-0" />
-                          <span className="truncate">{owner.email}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+        <p className="result-count">
+          Showing {filteredTeams.length} team{filteredTeams.length !== 1 ? 's' : ''} of {TEAMS.length}
+        </p>
+      </main>
+    </>
   );
 }

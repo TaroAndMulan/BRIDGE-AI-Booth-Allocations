@@ -1,6 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap');
 @import "tailwindcss";
+@import "./styles/bridge-theme.css";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+
+  --color-navy: #011023;
+  --color-ink: #00142b;
+  --color-peach: #fd906e;
+  --color-peach-dark: #bf6850;
+  --color-rose: #aa6469;
+  --color-rose-dark: #8c4b50;
+  --color-cornell: #b31b1b;
+  --color-chula: #de5c8e;
+  --color-muted: #647586;
+  --color-line: rgba(0, 20, 43, 0.1);
 }

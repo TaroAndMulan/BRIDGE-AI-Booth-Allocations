@@ -1,0 +1,812 @@
+[
+  {
+    "id": "bai-a01",
+    "booth": "BAI-A01",
+    "category": "Medical Education Award",
+    "track": "Rising Innovator",
+    "teamName": "V-SCENE: จำลองกรณีศึกษาเสมือนจริงเฉพาะบุคคลด้วย AI ในห้องเรียนกลับด้าน",
+    "projectName": "V-SCENE: Personalized AI-Driven Flipped Classroom for Cased-Based Learning",
+    "teamLeader": "นาย เอกธนา อาศิรวาท"
+  },
+  {
+    "id": "bai-a02",
+    "booth": "BAI-A02",
+    "category": "Medical Education Award",
+    "track": "Rising Innovator",
+    "teamName": "ปัญญาประดิษฐ์เพื่อส่งเสริมการคิดวิเคราะห์อย่างมีเหตุผลในนิสิตแพทย์",
+    "projectName": "BreakAI: Enhancing Analytical Reasoning Skills in Medical Students",
+    "teamLeader": "นายปองคุณ ศิวาลัยพงศ์"
+  },
+  {
+    "id": "bai-a03",
+    "booth": "BAI-A03",
+    "category": "Medical Education Award",
+    "track": "Rising Innovator",
+    "teamName": "HIRAX: ระบบปัญญาประดิษฐ์ปรับสมดุลระบบประสาทและ HRV Biofeedback เพื่อส่งเสริมสุขภาวะของนิสิตแพทย์",
+    "projectName": "HIRAX: AI-Guided Neuroregulation Training with HRV Biofeedback for Medical Student Well-being",
+    "teamLeader": "นายธิปก ตั้งศิริพัฒน์"
+  },
+  {
+    "id": "bai-a04",
+    "booth": "BAI-A04",
+    "category": "Medical Education Award",
+    "track": "Rising Innovator",
+    "teamName": "การพัฒนาชุดนวัตกรรมการเรียนรู้แบบใช้เกม (Gamification) เพื่อเสริมสร้างความเข้าใจและการคิดวิเคราะห์ในวิชาเคมีของยาที่ออกฤทธิ์ต่อระบบหัวใจและหลอดเลือด สำหรับนักศึกษาเภสัชศาสตร์",
+    "projectName": "Development of a Gamified Learning Innovation Package to Enhance Understanding and Analytical Thinking in Medicinal Chemistry of Drugs Acting on the Cardiovascular System among Pharmacy Students",
+    "teamLeader": "นางสาวณิชาภา สมิตทันต์"
+  },
+  {
+    "id": "bai-a05",
+    "booth": "BAI-A05",
+    "category": "Medical Education Award",
+    "track": "Rising Innovator",
+    "teamName": "ClinMirror: ระบบจำลองผู้ป่วยด้วยปัญญาประดิษฐ์เพื่อการสอบ OSCE ของนักศึกษาแพทย์ไทย",
+    "projectName": "ClinMirror: AI-Powered OSCE Patient Simulator for Thai Medical Education",
+    "teamLeader": "นายคณาธิป จักรสาร"
+  },
+  {
+    "id": "bai-a06",
+    "booth": "BAI-A06",
+    "category": "Medical Education Award",
+    "track": "Advanced Innovator",
+    "teamName": "DementiaEd-IPE: การบูรณาการเกมส่งเสริมความตระหนักรู้เกี่ยวกับภาวะสมองเสื่อมเข้าสู่การศึกษาระหว่างวิชาชีพด้านภาวะสมองเสื่อมสำหรับนักศึกษาวิชาชีพสุขภาพ",
+    "projectName": "DementiaEd-IPE: INTEGRATING DEMENTIA AWARENESS GAME INTO INTERPROFESSIONAL DEMENTIA EDUCATION FOR HEALTHCARE STUDENTS",
+    "teamLeader": "Ms. Ngoc Anh Doan"
+  },
+  {
+    "id": "bai-a07",
+    "booth": "BAI-A07",
+    "category": "Medical Education Award",
+    "track": "Advanced Innovator",
+    "teamName": "โปรแกรมคอมพิวเตอร์ FAesthetics Virtual Reality การเรียนการสอนกายวิภาคศาสตร์ของใบหน้า (VR-only)",
+    "projectName": "FAesthetics: A Multi-user Augmented Reality System for Interactive Facial Anatomy Teaching and Learning",
+    "teamLeader": "พญ.วริศรา วัชราภรณ์"
+  },
+  {
+    "id": "bai-a08",
+    "booth": "BAI-A08",
+    "category": "Medical Education Award",
+    "track": "Advanced Innovator",
+    "teamName": "การพัฒนาต้นแบบระบบสนับสนุนการประเมินสมรรถนะในการนิเทศการบำบัดความคิดและพฤติกรรมโดยเสริมการทำงานด้วยโมเดลภาษาขนาดใหญ่",
+    "projectName": "Development of a Prototype Large Language Model-Enhanced System for Supporting Competency Assessment in Cognitive Behavioral Therapy Supervision",
+    "teamLeader": "ภก.ณภัทร สัตยุตม์"
+  },
+  {
+    "id": "bai-a09",
+    "booth": "BAI-A09",
+    "category": "Medical Education Award",
+    "track": "Advanced Innovator",
+    "teamName": "การพัฒนาปัญญาประดิษฐ์เชิงภาพสำหรับการให้คำแนะนำการกดหน้าอกคุณภาพสูง",
+    "projectName": "Development of Vision-Based Artificial Intelligence for High Quality Chest Compression Guidance",
+    "teamLeader": "กฤษณชัย ฉิมทิม"
+  },
+  {
+    "id": "bai-a10",
+    "booth": "BAI-A10",
+    "category": "Medical Education Award",
+    "track": "Advanced Innovator",
+    "teamName": "การพัฒนาระบบผู้ป่วยจำลองด้วยปัญญาประดิษฐ์สำหรับ การสัมภาษณ์ทางจิตเวชและการทำความเข้าใจแบบจิตพลวัต",
+    "projectName": "Development of an AI-Simulated Patient Platform for  Psychiatric Interviewing and Psychodynamic Formulation",
+    "teamLeader": "นพ.ธีทัต วงษ์บุญหนัก"
+  },
+  {
+    "id": "bai-b01",
+    "booth": "BAI-B01",
+    "category": "Clinical Award",
+    "track": "Rising Innovator",
+    "teamName": "PupilSentry: เครื่องมืดตรวจวัดและประเมินม่านตาอัตโนมัติเชิงปริมาณเพื่อแจ้งเตือนภาวะความดันในกะโหลกศีรษะสูงแบบไม่รุกล้ำสำหรับการคัดแยกผู้ป่วยฉุกเฉิน",
+    "projectName": "PupilSentry: Automated Quantitative Pupillometry Tool for Non-Invasive Elevated Intracranial Pressure (ICP) Alert in Post-Trauma Triage",
+    "teamLeader": "นายสุวภัทร วานิชศุภชัย"
+  },
+  {
+    "id": "bai-b02",
+    "booth": "BAI-B02",
+    "category": "Clinical Award",
+    "track": "Rising Innovator",
+    "teamName": "ไม้เท้าอัจฉริยะ",
+    "projectName": "Smart walking cane",
+    "teamLeader": "นางสาว อภิญญารัตน์     อุตชี"
+  },
+  {
+    "id": "bai-b03",
+    "booth": "BAI-B03",
+    "category": "Clinical Award",
+    "track": "Rising Innovator",
+    "teamName": "RadiCare AI: แพลตฟอร์มปัญญาประดิษฐ์สำหรับการติดตามประเมินภาวะผิวหนังอักเสบจากการฉายรังสีระยะไกลและสนับสนุนการตัดสินใจทางคลินิกระหว่างการรักษาด้วยรังสี",
+    "projectName": "RadiCare AI: Artificial Intelligence-Based Remote Monitoring Platform for Radiation Dermatitis Assessment and Clinical Decision Support During Radiotherapy",
+    "teamLeader": "นางสาวเมทินี วิเศษรินทอง"
+  },
+  {
+    "id": "bai-b04",
+    "booth": "BAI-B04",
+    "category": "Clinical Award",
+    "track": "Rising Innovator",
+    "teamName": "ReMynd Pathway: แพลตฟอร์มสนับสนุนการตัดสินใจทางคลินิกเพื่อการคัดกรองความเสี่ยงโรคระบบประสาทเสื่อมในระยะเริ่มต้นและการวางแผนเส้นทางการดูแลเฉพาะบุคคล",
+    "projectName": "ReMynd Pathway: A Clinical Decision Support Platform for Early Neurodegenerative Risk Identification and Personalized Care Pathway Planning",
+    "teamLeader": "นายสมาธิ เจียรนัยไพศาล"
+  },
+  {
+    "id": "bai-b05",
+    "booth": "BAI-B05",
+    "category": "Clinical Award",
+    "track": "Rising Innovator",
+    "teamName": "เพรสเชอร์เซนส์",
+    "projectName": "PressureSense",
+    "teamLeader": "นาย รามานัน เทพเจริญ"
+  },
+  {
+    "id": "bai-b06",
+    "booth": "BAI-B06",
+    "category": "Clinical Award",
+    "track": "Rising Innovator",
+    "teamName": "วอล์คเกอร์อัจฉริยะระบบตรวจจับการล้มและป้องกันอุบัติเหตุเชิงรุกด้วยอัลกอริทึม Multi-Sensor Fusion และการแจ้งเตือนอัจฉริยะผ่านเครือข่าย IoT เพื่อลดอัตราความล่าช้าในการส่งความช่วยเหลือทางการแพทย์",
+    "projectName": "): Smart Walker: An IoT-Based Proactive Fall Detection and Cliff-Avoidance System Using Multi-Sensor Fusion Algorithms to Minimize Emergency Response Latency for the Aging Society",
+    "teamLeader": "นายณัฐพัชร์  บุญดี  (ชุน)"
+  },
+  {
+    "id": "bai-b07",
+    "booth": "BAI-B07",
+    "category": "Clinical Award",
+    "track": "Rising Innovator",
+    "teamName": "ระบบพยุงขาเชิงบำบัดเพื่อการกระจายแรงกดและส่งเสริมการไหลเวียนโลหิตสำหรับผู้ป่วยติดเตียง",
+    "projectName": "PneuBuck: Therapeutic Leg Support System for Pressure Redistribution and Circulatory Enhancement in Bedridden Patients",
+    "teamLeader": "นางสาว ปุณยวีร์ บุญถนอมวงศ์"
+  },
+  {
+    "id": "bai-b08",
+    "booth": "BAI-B08",
+    "category": "Clinical Award",
+    "track": "Rising Innovator",
+    "teamName": "แอปพลิเคชั่นกำหนดอาหารจากค่าน้ำตาลในเลือดแบบเรียลไทม์",
+    "projectName": "Glucose guide",
+    "teamLeader": "วรินทร ชุมเกษียร"
+  },
+  {
+    "id": "bai-b09",
+    "booth": "BAI-B09",
+    "category": "Clinical Award",
+    "track": "Advanced Innovator",
+    "teamName": "Please see English title",
+    "projectName": "HeartPulse — Multisystem Physiologic Monitoring Platform for Chronic Disease Prevention",
+    "teamLeader": "Mr. Phuong Vo Tan"
+  },
+  {
+    "id": "bai-b10",
+    "booth": "BAI-B10",
+    "category": "Clinical Award",
+    "track": "Advanced Innovator",
+    "teamName": "การประยุกต์ใช้เทคโนโลยีการเรียนรู้ของเครื่องเพื่อคาดการณ์อาการกระวนกระวายในผู้มีภาวะสมองเสื่อม โดยใช้ความแปรปรวนของอัตราการเต้นของหัวใจ",
+    "projectName": "Utilization of Machine Learning Technology to Predict Agitation in People with Dementia Using Pulse Rate Variability",
+    "teamLeader": "นางสาวณ มน นุกูลสุขศิริ"
+  },
+  {
+    "id": "bai-b11",
+    "booth": "BAI-B11",
+    "category": "Clinical Award",
+    "track": "Advanced Innovator",
+    "teamName": "SnoreSense AutoMAD: อุปกรณ์เลื่อนขากรรไกรล่างอัจฉริยะชนิดปรับระยะอัตโนมัติแบบเรียลไทม์ด้วยปัญญาประดิษฐ์",
+    "projectName": "SnoreSense AutoMAD: AI-powered Real-time Auto-Titrating Mandibular Advancement Device",
+    "teamLeader": "นายชนม์เจริญ ธรรมโสภินท์กุล"
+  },
+  {
+    "id": "bai-b12",
+    "booth": "BAI-B12",
+    "category": "Clinical Award",
+    "track": "Advanced Innovator",
+    "teamName": "การพัฒนาระบบวิเคราะห์เสียงพูดอัตโนมัติสำหรับการทดสอบความคล่องทางคำพูดเชิงความหมายในหมวดสัตว์เพื่อคัดกรองภาวะบกพร่องทางการรู้คิด",
+    "projectName": "Development of an Automated Speech Analysis System for Screening Cognitive Impairment Using an Animal Semantic Verbal Fluency Task",
+    "teamLeader": "นางสาวธัญวรัตน์ อาทยะกุล"
+  },
+  {
+    "id": "bai-b13",
+    "booth": "BAI-B13",
+    "category": "Clinical Award",
+    "track": "Advanced Innovator",
+    "teamName": "EOM Care: แอปพลิเคชันประเมินความเสี่ยงมะเร็งรังไข่ระยะเริ่มต้นเพื่อสนับสนุนการตัดสินใจทางคลินิก",
+    "projectName": "EOM Care: A Digital Health Application for Early-Stage Ovarian Cancer Risk Assessment and Clinical Decision Support",
+    "teamLeader": "นพ วัชรินทร์ เฉิดฉิ้ม"
+  },
+  {
+    "id": "bai-c01",
+    "booth": "BAI-C01",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "Goldfitt: อุปกรณ์ออกกำลังกายผ่านเกมดิจิทัลสำหรับผู้สูงอายุ",
+    "projectName": "Goldfitt: Exercise Gamify for Elderly",
+    "teamLeader": "นางสาวสลิล บุญญานุสาสน์"
+  },
+  {
+    "id": "bai-c02",
+    "booth": "BAI-C02",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "ระบบฟื้นฟูข้อเข่าอัจฉริยะด้วยแรงต้านนิวเมติกแบบปรับตัวและ AI วิเคราะห์สมรรถนะการเคลื่อนไหว",
+    "projectName": "PneumoKnee-Resist: A Smart Pneumatic Resistance Brace for Adaptive Knee Rehabilitation.",
+    "teamLeader": "นางสาว กว่าชื่น คงฉิม"
+  },
+  {
+    "id": "bai-c03",
+    "booth": "BAI-C03",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "ระบบเครื่องพ่นยาอัจฉริยะแบบฝังตัวที่ขับเคลื่อนด้วย AI สำหรับการประเมินเทคนิคการพ่นยาแบบเรียลไทม์ โดยใช้การตรวจ จับแรงดันและ IMU",
+    "projectName": "An Embedded Al-Driven Smart Inhaler System for Real-Time Inhalation Technique Assessment Using Pressure and IMU Sensing",
+    "teamLeader": "นางสาวณัชชารินทร์ บรรจงกิจ"
+  },
+  {
+    "id": "bai-c04",
+    "booth": "BAI-C04",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "ระบบฝึกกล้ามเนื้อทางเดินหายใจ",
+    "projectName": "Reverse CPAP TrainNet",
+    "teamLeader": "นางสาว พรปวีณ์ ธีรภาพวงศ์"
+  },
+  {
+    "id": "bai-c05",
+    "booth": "BAI-C05",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "STERI-LOOP 5: ระบบดิจิทัลตรวจสอบย้อนกลับและประกันความปลอดภัยของกระบวนการทำให้ปราศจากเชื้อ",
+    "projectName": "STERI-LOOP 5: A Digital Traceability and Circular Sterilization Assurance Platform",
+    "teamLeader": "ผู้ช่วยศาสตราจารย์ ดร.วิทยา ชาญชัย"
+  },
+  {
+    "id": "bai-c06",
+    "booth": "BAI-C06",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "อุ่นใจ อุ่นใจ: แพลตฟอร์มสนับสนุนผู้ดูแลผู้ป่วยสมองเสื่อมแบบครบวงจร",
+    "projectName": "Oun-Jai An intelligent Care Ecosystem for Dementia Caregivers",
+    "teamLeader": "นางสาว ภัสราภรณ์ ศรีสุวิภา"
+  },
+  {
+    "id": "bai-c07",
+    "booth": "BAI-C07",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "ระบบคัดกรองโรคพาร์กินสันระยะเริ่มต้นแบบพกพาด้วยการวิเคราะห์ความไม่เสถียรของจังหวะการหายใจ",
+    "projectName": "Temporal Respiratory Rhythm Instability as a Portable Screening Biomarker for Early Parkinson’s Disease",
+    "teamLeader": "นางสาวภัสส์พิชชา แต้มครบุรี"
+  },
+  {
+    "id": "bai-c08",
+    "booth": "BAI-C08",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "TELEPAD : ระบบคัดกรองผู้ป่วยฉุกเฉินหัวใจอัจฉริยะด้วยปัญญาประดิษฐ์ในระยะก่อนถึงโรงพยาบาล",
+    "projectName": "TELEPAD : AI‑Driven Golden-Minute Cardiac Emergency Screening System",
+    "teamLeader": "นางสาว ณัฐฐพร วงศ์เลิศสุวรรณ"
+  },
+  {
+    "id": "bai-c09",
+    "booth": "BAI-C09",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "NeuroSense: แพลตฟอร์มคัดกรองสุขภาพดิจิทัลแบบบูรณาการด้วย EEG เสียง และการเคลื่อนไหวดวงตาเพื่อประเมินความเสี่ยงอัลไซเมอร์",
+    "projectName": "NeuroSense: An Integrated Digital Health Screening Platform Using EEG, Voice, and Eye Movement Analysis for Alzheimer's Risk Assessment",
+    "teamLeader": "นางสาวนันท์นภัส วงษ์สุวรรณ"
+  },
+  {
+    "id": "bai-c10",
+    "booth": "BAI-C10",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "ClaimForge:  ระบบผู้ช่วยตรวจสอบคุณภาพการลงรหัสโรคแบบ Read-Only สำหรับ Thai DRG",
+    "projectName": "ClaimForge: A Read-Only Clinical Coding Quality-Assurance Assistant for Thai DRG",
+    "teamLeader": "นศพ. อินอาร์ม เอกอัคราภิบาล"
+  },
+  {
+    "id": "bai-c11",
+    "booth": "BAI-C11",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "ออนโคป: แพลตฟอร์มปัญญาประดิษฐ์เพื่อช่วยในการจัดการอาการปวดในผู้ป่วยมะเร็ง",
+    "projectName": "OnCope: AI-assisted Cancer Pain Management Platform",
+    "teamLeader": "นางสาวเจตน์สิรี ธนกิจจารุ"
+  },
+  {
+    "id": "bai-c12",
+    "booth": "BAI-C12",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "กล่องส่งสิ่งส่งตรวจอัจฉริยะ",
+    "projectName": "MediCool Box",
+    "teamLeader": "นายฉันทพัฒน์ แซ่ซึม"
+  },
+  {
+    "id": "bai-c13",
+    "booth": "BAI-C13",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "ฟีโนอินชัวร์ แพล็ตฟอร์มสำหรับคัดกรอง ป้องกัน และติดตามโรค NCDs ที่พบบ่อยในคนไทย",
+    "projectName": "PhenoInsure - Digital Health Platform for the Screening, Prevention, and Monitoring of Common NCDs in the Thai Population",
+    "teamLeader": "นางสาว จิรัชญา ยอดมงคล"
+  },
+  {
+    "id": "bai-c14",
+    "booth": "BAI-C14",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "การพัฒนาเครื่องตรวจคลื่นไฟฟ้าหัวใจแบบไร้สายพร้อมระบบปัญญาประดิษฐ์เพื่อการวิเคราะห์และแจ้งเตือนภาวะหัวใจเต้นผิดปกติแบบทันที",
+    "projectName": "Development of a Wireless ECG Monitoring Device with Integrated AI for Real-Time Cardiac Anomaly Detection and Alert System",
+    "teamLeader": "นางสาวธนพร จงสุจริต"
+  },
+  {
+    "id": "bai-c15",
+    "booth": "BAI-C15",
+    "category": "Digital Technology Award",
+    "track": "Rising Innovator",
+    "teamName": "PAT (ระบบติดตามกิจกรรมทางสรีระ): ระบบสวมใส่อัจฉริยะตรวจจับการเคลื่อนไหวด้วย Micro:bit เพื่อป้องกันออฟฟิศซินโดรม",
+    "projectName": "PAT (Postural Activity Tracker): Smart Wearable Motion-Recognition System using Micro:bit for Office Syndrome Prevention",
+    "teamLeader": "นาย พิทวัส งามจรรยาภรณ์"
+  },
+  {
+    "id": "bai-c16",
+    "booth": "BAI-C16",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "ระบบช่องทางด่วนโรคหลอดเลือดสมองอัจฉริยะ : แพลตฟอร์มดิจิทัลสำหรับการดูแลผู้ป่วยโรคหลอดเลือดสมองเฉียบพลัน",
+    "projectName": "The Smart Stroke Fast Track (SSFT): Digital Stroke Care Platform for Acute Stroke Management",
+    "teamLeader": "ผศ.พญ.ดวงนภา รุ่งพิบูลโสภิษฐ์"
+  },
+  {
+    "id": "bai-c17",
+    "booth": "BAI-C17",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "AUNJAI Application: อุ่นใจ ดูแลได้ ปลอดภัย ไม่ลำพัง ระบบเสริมศักยภาพผู้ดูแลและครอบครัวเพื่อเฝ้าระวังความเสี่ยงและสนับสนุนการดูแลผู้ป่วยจิตเวชในชุมชน",
+    "projectName": "AUNJAI Application: Empowering Caregivers and Families for Risk Monitoring and Community-Based Psychiatric Care",
+    "teamLeader": "นางสาวปัทมวรรณ สุขแจ่ม"
+  },
+  {
+    "id": "bai-c18",
+    "booth": "BAI-C18",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "การจับคู่เชื่อมโยงข้อมูลรหัสยาไทยและสากลโดยอัตโนมัติ",
+    "projectName": "Automated Concept Mapping of Thai and International Drug Terminologies",
+    "teamLeader": "นาย ศักดิ์ณรงค์  สมบัติเจริญ"
+  },
+  {
+    "id": "bai-c19",
+    "booth": "BAI-C19",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "ThincQ: แพลตฟอร์มการคัดกรองภาวะทางปัญญาด้วยระบบดิจิทัล สําหรับภาวะความจําเสื่อมเล็กน้อยและภาวะสมองเสื่อมในประชากรผู้สูง อายุไทย",
+    "projectName": "THINCQ: A Digital Cognitive Pre-Screening Platform for Mild Cognitive Impairment and Dementia in Thai Elderly Population",
+    "teamLeader": "นาย อานนท์ ทาวงศ์"
+  },
+  {
+    "id": "bai-c20",
+    "booth": "BAI-C20",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "การออกแบบและพัฒนาต้นแบบแอปพลิเคชันบนมือถือสำหรับการติดตามกระบวนการ Stroke Fast Track และระยะเวลา Door-to-Needle แบบเรียลไทม์",
+    "projectName": "A Prototype Mobile Application for Real-Time Monitoring of Stroke Fast-Track Workflow and Door-to-Needle Time",
+    "teamLeader": "ฤดีมาศ จันทะดี"
+  },
+  {
+    "id": "bai-c21",
+    "booth": "BAI-C21",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "แพลตฟอร์มแบบโต้ตอบสำหรับการเชื่อมโยงรหัสยามาตรฐานไทยและระดับสากล",
+    "projectName": "Interactive Interface for Thai and International Drug Terminology Mapping",
+    "teamLeader": "ภก.ชยานนท์ แกมทอง"
+  },
+  {
+    "id": "bai-c22",
+    "booth": "BAI-C22",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "คัดกรองสมองจากการเดิน: จากความเสี่ยงล้มสู่การตรวจพบ MCI ระยะเริ่มต้น",
+    "projectName": "Gait–Cognition Screening: From Fall Risk to Early MCI Detection",
+    "teamLeader": "นายกล้า จิระสานต์"
+  },
+  {
+    "id": "bai-c23",
+    "booth": "BAI-C23",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "การพัฒนาและการตรวจสอบเชิงเทคนิคของระบบรู้จำท่าทางมือซิกซ์แพ็กแบบเวลาจริงด้วยการเรียนรู้ของเครื่อง",
+    "projectName": "Development and Technical Validation of a Real-time Six-Pack Hand Pose Recognition System Using Machine Learning",
+    "teamLeader": "พญ.น้ำทอง วิทยบุษราคัม"
+  },
+  {
+    "id": "bai-c24",
+    "booth": "BAI-C24",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "ระบบติดตามรูปแบบพฤติกรรมแบบไม่รุกรานสำหรับ BPSD โดยใช้เซนเซอร์ BCG บนเตียงและ WiFi CSI",
+    "projectName": "Non-Intrusive Behavioral Pattern Monitoring for BPSD Using BCG Bed Sensor and WiFi CSI",
+    "teamLeader": "นาย กิตติพงษ์ สาครเสถียร"
+  },
+  {
+    "id": "bai-c25",
+    "booth": "BAI-C25",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "การพัฒนาต้นแบบระบบติดตามการสั่งใช้ยาด่วนในผู้ป่วยใน",
+    "projectName": "Prototype development of STAT Medication Order Tracking System in Inpatient Care",
+    "teamLeader": "นาย ชินพันธ์ เมธีวัชรสิริชาติ"
+  },
+  {
+    "id": "bai-c26",
+    "booth": "BAI-C26",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "การวิเคราะห์และออกแบบกระบวนการนำส่งยาด่วน เพื่อเพิ่มประสิทธิภาพการดำเนินงานในระบบยาผู้ป่วยใน",
+    "projectName": "Analysis and Redesign of STAT Medication Delivery Process to Improve Operational Efficiency in the Inpatient Pharmacy System",
+    "teamLeader": "นางสาวธัญชนก ทองงาม"
+  },
+  {
+    "id": "bai-c27",
+    "booth": "BAI-C27",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "การพัฒนาแพลตฟอร์มแบบมีปฏิสัมพันธ์เพื่อปรับประเมินความเสี่ยงโรคเบาหวาน",
+    "projectName": "Development of an Interactive Platform for Modifiable Diabetes Risk Adjustment",
+    "teamLeader": "นพ.ภูมิภัทร ชัยวัฒนายน"
+  },
+  {
+    "id": "bai-c28",
+    "booth": "BAI-C28",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "ระบบวิเคราะห์ภาพผิวหนังอัจฉริยะสำหรับการคัดกรองและจำแนกประเภทโรคสะเก็ดเงินแบบอัตโนมัติด้วยปัญญาประดิษฐ์",
+    "projectName": "PsorAITyper: An Intelligent Skin Image Analysis System for Automated Screening and Psoriasis Type Classification Using Artificial Intelligence",
+    "teamLeader": "นายเศรษฐพงษ์ ล้ำสกุลวงศ์"
+  },
+  {
+    "id": "bai-c29",
+    "booth": "BAI-C29",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "CranioTrack: แพลตฟอร์มดิจิทัล ePROMs สำหรับติดตามผู้ป่วย Craniosynostosis หลังผ่าตัด",
+    "projectName": "CranioTrack: Digital ePROMs Platform for Post-Operative Monitoring in Craniosynostosis Patients",
+    "teamLeader": "พญ.ชุติมา จิรภิญโญ"
+  },
+  {
+    "id": "bai-c30",
+    "booth": "BAI-C30",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "การพัฒนาระบบอัตโนมัติเพื่อสร้างเกณฑ์อ้างอิงทางห้องปฏิบัติการทางอ้อมในผู้ป่วยเด็กโดยใช้ข้อมูล Big Data จากระบบสารสนเทศโรงพยาบาล",
+    "projectName": "Development of an Automated Indirect Pediatric Reference Interval Generation Platform using Hospital Big Data: A Novel Approach Integration with LIS/HIS",
+    "teamLeader": "นพ. สุวิวัฒน์ บุนนาค"
+  },
+  {
+    "id": "bai-c31",
+    "booth": "BAI-C31",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "การพัฒนาระบบประกันคุณภาพทางพยาธิวิทยาด้วยคอมพิวเตอร์วิทัศน์",
+    "projectName": "Computer vision for pathology quality assurance",
+    "teamLeader": "ตะลันต์ เทพอารีย์"
+  },
+  {
+    "id": "bai-c32",
+    "booth": "BAI-C32",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "ระบบสร้างเส้นเวลาการใช้ยาอัตโนมัติเพื่อสนับสนุนการกระทบยอดรายการยาในผู้ป่วยสูงอายุและโรคเรื้อรัง",
+    "projectName": "Automated Medication Timeline Generation System for Healthcare Professionals to Support Reconciliation in Elderly and Chronic Patients",
+    "teamLeader": "ภญ.ธมกร เตียเจริญ"
+  },
+  {
+    "id": "bai-c33",
+    "booth": "BAI-C33",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "CareEase-D: แพลตฟอร์มดิจิทัลที่ยึดผู้ดูแลเป็นศูนย์กลางเพื่อเชื่อมโยงการดูแลผู้ป่วยภาวะสมองเสื่อมที่บ้านสู่การตัดสินใจทางคลินิก",
+    "projectName": "CareEase-D: A Caregiver-Centered Digital Platform for Connecting Home-Based Dementia Care with Clinical Decision Support",
+    "teamLeader": "พญ. ฝนทิพย์ วัชราภรณ์"
+  },
+  {
+    "id": "bai-c34",
+    "booth": "BAI-C34",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "การพัฒนาต้นแบบระบบฐานความรู้ที่อธิบายได้สำหรับการประเมินสถานะธาตุปัจจุบันจากอาการทางผิวหนังที่เกี่ยวข้องกับโรคสะเก็ดเงิน",
+    "projectName": "Development of an Explainable Knowledge-Based Prototype for Thai Current Elements-Status Assessment in Psoriasis-Related Skin Conditions",
+    "teamLeader": "ธีรข์กรณ์ อุดมรัตนะมณี"
+  },
+  {
+    "id": "bai-c35",
+    "booth": "BAI-C35",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "ระบบอัจฉริยะสำหรับติดตามและเฝ้าระวังการนอนหลับทางไกล เพื่อเพิ่มประสิทธิภาพการบำบัดด้วยเครื่อง CPAP และ BiPAP",
+    "projectName": "Tele-sleep monitoring system for CPAP/BiPAP users.",
+    "teamLeader": "นาย โชติศักดิ์ กฤตยกุลเจริญ"
+  },
+  {
+    "id": "bai-c36",
+    "booth": "BAI-C36",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "การพัฒนากรอบการวิเคราะห์ด้วยปัญญาประดิษฐ์เพื่อการตรวจจับรูปแบบการปรากฏร่วมกันของสารหลายชนิดในข้อมูลนิติพิษวิทยาหลังการเสียชีวิต เพื่อสนับสนุนการเฝ้าระวังทางนิติพิษวิทยา",
+    "projectName": "Development of an AI-Based Analytical Framework for Detecting Polysubstance Co-occurrence Patterns in Postmortem Forensic Toxicology Data to Support Forensic Toxicovigilance",
+    "teamLeader": "ร.ต.อ. ภก.รวิกร ธรรัตโนบล"
+  },
+  {
+    "id": "bai-c37",
+    "booth": "BAI-C37",
+    "category": "Digital Technology Award",
+    "track": "Advanced Innovator",
+    "teamName": "ต้นแบบเครื่องมือลบตัวระบุข้อมูลผู้ป่่วย FHIR ด้วยโมเดลภาษาขนาดใหญ่และหลักการ k-anonymity",
+    "projectName": "Prototype FHIR Patient De-Identification Tool using Language Models and k-Anonymity Principles",
+    "teamLeader": "ศิริชัย นุกูลวุฒิโอภาส"
+  },
+  {
+    "id": "bai-d01",
+    "booth": "BAI-D01",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "การพัฒนาต้นแบบระบบคอมพิวเตอร์วิทัศน์แบบเวลาจริงด้วยโยโล สำหรับตรวจสอบซ้ำเพื่อความถูกต้องของยาสามัญประจำบ้าน",
+    "projectName": "Development of a Real-Time Computer Vision Prototype Using YOLO for Double-Check Verification of Common Household Medications",
+    "teamLeader": "นายกันติพงษ์ บึงไพศาลสมบูรณ์"
+  },
+  {
+    "id": "bai-d02",
+    "booth": "BAI-D02",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "HELIX-NSCLC: การพัฒนาแอปพลิเคชันสำหรับวินิจฉัยและการวางแผนการรักษาโดยภูมิคุ้มกันบำบัดสำหรับโรคมะเร็งปอดชนิดเซลล์ไม่เล็ก จากลักษณะทางพยาธิวิทยาบนภาพถ่ายชิ้นเนื้อและรูปแบบการดำเนินชีวิต",
+    "projectName": "HELIX-NSCLC: Developing a Deep Learning FFPE Histopathology Framework for H&E-Based Expression and Lifestyle Factor Assessment in Non-Small Cell Lung Cancer Immunotherapy Diagnosis and Treatment Planning",
+    "teamLeader": "นายกฤฏิ์ อาจอนงค์"
+  },
+  {
+    "id": "bai-d03",
+    "booth": "BAI-D03",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "ก้าวสู่โลกสเปกตรัม",
+    "projectName": "Into the Spectrum",
+    "teamLeader": "นายปภาวิน ทฤษณาวดี"
+  },
+  {
+    "id": "bai-d04",
+    "booth": "BAI-D04",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "แบบจำลองนโยบายเชิงพลวัตด้วยปัญญาประดิษฐ์เพื่อประเมินภาระต้นทุนตลอดชีพและกำหนดเป้าหมาย ราคาที่อิงคุณค่าของการบำบัดด้วยเซลล์ทีดัดแปลง พันธุกรรม (CAR-T Cell Therapy) ในระบบสาธารณสุขไทย:กรณีศึกษาผู้ป่วยมะเร็งต่อมน้ำเหลืองชนิดเซลล์บีขนาดใหญ่แบบแพร่กระจายที่ดื้อหรือกลับเป็นซ้ำ",
+    "projectName": "An AI-Driven Dynamic Policy Simulator for Lifetime Cost-of-Illness Evaluation and Value-Based Target Pricing of CAR-T Cell Therapy in the Thai Healthcare System: A Case Study of Patients with Relapsed/Refractory Diffused Large B-Cell Lymphoma (R/R-DLBCL)",
+    "teamLeader": "นางสาวพอฤทัย วิชัยยา"
+  },
+  {
+    "id": "bai-d05",
+    "booth": "BAI-D05",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "ระบบคัดกรองโรคจอประสาทตาด้วยปัญญาประดิษฐ์แบบออฟไลน์บนอุปกรณ์ Edge สำหรับพื้นที่ขาดแคลนบุคลากรทางการแพทย์",
+    "projectName": "EyeSense AI",
+    "teamLeader": "นางสาวภคพร กิตติวรางกูร"
+  },
+  {
+    "id": "bai-d06",
+    "booth": "BAI-D06",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "ระบบวิเคราะห์การเคลื่อนไหวแบบเรียลไทม์สำหรับการประเมินคุณภาพ การออกกำลังกายฟื้นฟูสุขภาพ",
+    "projectName": "Real-Time Motion Analysis System for Physical Rehabilitation Exercise Assessment",
+    "teamLeader": "นายป้อมบุญ ป้อมบุญมี"
+  },
+  {
+    "id": "bai-d07",
+    "booth": "BAI-D07",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "สตาฟีโลค็อกคัส ออโตเมเต็ด เรค็อกนิชัน (สตาร์)",
+    "projectName": "STaphylococcus Automated Recognition (STAR)",
+    "teamLeader": "นาย ชวินธร ชลศักดิ์ตระกูล"
+  },
+  {
+    "id": "bai-d08",
+    "booth": "BAI-D08",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "ระบบปัญญาประดิษฐ์เพื่อพยากรณ์การผิดรูปของกระดูกเข่าเด็กอันเนื่องมาจากอุบัติเหตุ",
+    "projectName": "AI-Based Prognostic System for Trauma-Induced Pediatric Knee Deformity",
+    "teamLeader": "นางสาว อัมพร ชินพร"
+  },
+  {
+    "id": "bai-d09",
+    "booth": "BAI-D09",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "ยิ้มสุข",
+    "projectName": "Yim Suk",
+    "teamLeader": "น.ส.ณัชริญา คงสุวรรณ"
+  },
+  {
+    "id": "bai-d10",
+    "booth": "BAI-D10",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "De-NB: แอปพลิเคชันปัญญาประดิษฐ์เพื่อวินิจฉัยนิวโรบลาสโตมา จากข้อมูลเมตาบอไลต์ในพลาสมาและปัสสาวะ ภายใต้ข้อจำกัดด้านทรัพยากรและข้อมูลไม่สมบูรณ์",
+    "projectName": "De-NB: A Missing Data-Tolerant Deep Learning Model Application for Neuroblastoma Diagnosis Using Plasma and Urine Metabolites in Resource-Limited Clinical Settings",
+    "teamLeader": "นางสาว สุวิชชา วริทธิสาร"
+  },
+  {
+    "id": "bai-d11",
+    "booth": "BAI-D11",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "แพลตฟอร์มวิเคราะห์ภาพ Non-contrast CT Scan สมองเพื่อจำแนกประเภทของโรคหลอดเลือดสมองแตก โดยใช้เทคโนโลยี CNN Baseline Model ผสาน Quantum Layer (VQC) เพื่อเพิ่มประสิทธิภาพของการวิเคราะห์ภาพทางรังสีวิทยา พร้อมระบบ Federated Learning และ Post-Quantum Cryptography (PQC) สำหรับการแลกเปลี่ยนและพัฒนาโมเดลอย่างปลอดภัยและยั่งยืนสำหรับโรงพยาบาล",
+    "projectName": "A Non-contrast Brain CT Image Analysis Platform for Classifying Hemorrhagic Stroke Subtypes using a CNN Baseline Model integrated with a Quantum Layer (VQC) to enhance radiological image analysis, with Federated Learning and Post-Quantum Cryptography (PQC) for secure and sustainable model exchange and development across hospitals",
+    "teamLeader": "นายปริพัฒน์ รอดหยู่"
+  },
+  {
+    "id": "bai-d12",
+    "booth": "BAI-D12",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "อุปกรณ์คัดกรองสุขภาพกระดูกแบบหลายมิติร่วมกับระบบบริหารจัดการเข้ารับบริการทางการแพทย์อัจฉริยะ",
+    "projectName": "BoneGuard: Multi-modal bone health screening device and Smart hospital queue management system",
+    "teamLeader": "นายธนาธิป ชาวนาดอน"
+  },
+  {
+    "id": "bai-d13",
+    "booth": "BAI-D13",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "คุยกัน...ก่อนจะลืม “น้องจำปา”",
+    "projectName": "Before we forgot “Nong Champa”",
+    "teamLeader": "นายคณิศร  สุภานัติ"
+  },
+  {
+    "id": "bai-d14",
+    "booth": "BAI-D14",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "ระบบอัจฉริยะวิเคราะห์ชนิดเม็ดเลือดและความผิดปกติของเซลล์เม็ดเลือด แดงด้วยปัญญาประดิษฐ์",
+    "projectName": "Blood Vision AI: Intelligent Blood Cell Classification and Red Blood Cell Abnormality Detection",
+    "teamLeader": "นางสาว ณุภัทรณีย์ ถวัลย์วรกิจ"
+  },
+  {
+    "id": "bai-d15",
+    "booth": "BAI-D15",
+    "category": "Medical AI Award",
+    "track": "Rising Innovator",
+    "teamName": "ระบบสื่อสารและช่วยดูแลผู้ป่วยอัมพฤกษ์อัมพาตด้วยเทคโนโลยีตรวจจับการเคลื่อนไหวดวงตาและเสียงพูด",
+    "projectName": "Patient Care by Ai",
+    "teamLeader": "นายพีรวิชญ์ สิงห์แก้ว"
+  },
+  {
+    "id": "bai-d16",
+    "booth": "BAI-D16",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "การปรับปรุงคุณภาพเสียงพูดของผู้ที่ไม่มีกล่องเสียงโดยอาศัยความน่าจะเป็นแบบไม่ต่อเนื่อง ผ่านการเรียนรู้การแสดงผลแบบแยกส่วน และการเสริมคุณภาพเสียงโดยรักษาระดับคุณภาพเสียงไว้",
+    "projectName": "Attention-Driven Alaryngeal Speech Enhancement via Discrete Representation Learning and Timbre-Preserving Augmentation",
+    "teamLeader": "Ms. Hnin Yadana Lwin"
+  },
+  {
+    "id": "bai-d17",
+    "booth": "BAI-D17",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "ปัญญาประดิษฐ์คัดกรองมะเร็งช่องปากในประชากรอำเภอหัวตะพาน จังหวัดอำนาจเจริญ",
+    "projectName": "Artificial Intelligence for Oral Cancer Screening in Huataphan, Amnat-Charoen",
+    "teamLeader": "ทพ.นราวิชญ์ วารีกุล"
+  },
+  {
+    "id": "bai-d18",
+    "booth": "BAI-D18",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "โปรแกรมคัดกรองต้อหินป้องกันตาบอด",
+    "projectName": "D.R.E.A.M.(Deep-learning Risk Evaluation and Analysis Model) for Glaucoma Screening",
+    "teamLeader": "นพ.ภาสวุฒิ ท่อแก้ว"
+  },
+  {
+    "id": "bai-d19",
+    "booth": "BAI-D19",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "การเพิ่มประสิทธิภาพระบบการรู้จําเสียงอัตโนมัติในการตรวจจับคําสําคัญที่มีความเสี่ยงในการฆ่าตัวตายในภาษาไทย",
+    "projectName": "Enhancing Automatic Speech Recognition Detection of Suicidal-related Terms in Thai language",
+    "teamLeader": "นางสาวชัญญานาฏ เกียรติพรโอภาส"
+  },
+  {
+    "id": "bai-d20",
+    "booth": "BAI-D20",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "การสรุปบันทึกเวชระเบียนจิตบำบัดความคิดและพฤติกรรมอัตโนมัติโดยใช้เทคโนโลยีปัญญาประดิษฐ์",
+    "projectName": "AI-Based Automated Summarization CBT Psychotherapy Notes",
+    "teamLeader": "นพ.ธันวรุจน์ บูรณสุขสกุล"
+  },
+  {
+    "id": "bai-d21",
+    "booth": "BAI-D21",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "การพัฒนาและประเมินผลระบบการสกัดข้อมูลระดับความสูงจากแผนการเดินทางด้วยปัญญาประดิษฐ์สำหรับเวชศาสตร์การเดินทาง",
+    "projectName": "Development and Evaluation of AI-Assisted Altitude Extraction System from Travel Itineraries for Travel Medicine",
+    "teamLeader": "นายวิชชากร ปุณยกนก"
+  },
+  {
+    "id": "bai-d22",
+    "booth": "BAI-D22",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "ระบบปัญญาประดิษฐ์สำหรับวิเคราะห์ข้อมูลเวชระเบียนอิเล็กทรอนิกส์แบบไม่มีโครงสร้างเพื่อประเมินระดับความรุนแรงของโรคด้วยคะแนน NIH Stroke Scale (NIHSS)",
+    "projectName": "Artificial Intelligence System for Unstructured Electronic Medical Record Text Analysis to Estimate Neurological Severity Using the National Institutes of Health Stroke Scale (NIHSS)",
+    "teamLeader": "นางสาวนันท์นภัส มุกนำพร"
+  },
+  {
+    "id": "bai-d23",
+    "booth": "BAI-D23",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "ประสิทธิผลของโปรแกรม Smart Warfarin-NHH ในการคำนวณขนาดยาและการจัดการข้อมูลผู้ป่วย ในคลินิกวาร์ฟารินของโรงพยาบาลหนองหิน",
+    "projectName": "Effectiveness of the Smart Warfarin-NHH Program on Dose Calculation and Patient Data Management in Warfarin Clinic, Nonghin Hospital",
+    "teamLeader": "นางสาวจิรัฐิติกานต์  อ้วนศิริ"
+  },
+  {
+    "id": "bai-d24",
+    "booth": "BAI-D24",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "โครงการพัฒนาโมเดลอัลกอริทึมปัญญาประดิษฐ์เพื่อช่วยในการคัดกรองโรคพันธุกรรมเมตาบอลิกแต่กำเนิดในทารกแรกเกิด",
+    "projectName": "Development of an AI-Based Algorithm Model for Assisting in Inborn Errors of Metabolism (IEM) Screening",
+    "teamLeader": "แพทย์หญิงอรกานต์ ลิ้มพรภักดี"
+  },
+  {
+    "id": "bai-d25",
+    "booth": "BAI-D25",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "ปัญญาประดิษฐ์สําหรับทํานายการดื้อยาต้านจุลชีพ",
+    "projectName": "Artificial Intelligence for Antimicrobial Resistance Prediction",
+    "teamLeader": "นพ.วรพจน์ นิลรัตนกุล"
+  },
+  {
+    "id": "bai-d26",
+    "booth": "BAI-D26",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "การเรียนรู้เชิงลึกเพื่อการวินิจฉัยพยาธิสภาพที่ขั้วประสาทตา ระหว่างภาวะเบาหวานขึ้นจอตา และโรคจุดภาพชัดที่จอตาเสื่อมในผู้สูงอายุ จากภาพถ่ายจอประสาทตา",
+    "projectName": "Deep learning for the diagnosis of diabetic retinopathy and age-related macular degeneration from retinal fundus photographs",
+    "teamLeader": "พญ.วิลาสินี คุปต์นิรัติศัยกุล"
+  },
+  {
+    "id": "bai-d27",
+    "booth": "BAI-D27",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "การพัฒนาระบบอัตโนมัติสําหรับการให้คะแนน Fazekas และการหาปริมาณความเข้มขาวผิดปกติ ของเนื้อสมองโดยใช้การวิเคราะห์เชิงปริมาตรจากข้อมูลภาพ MRI",
+    "projectName": "Deep Learning–Based Automated Fazekas Scoring, White Matter Hyperintensity Quantification Using Volumetric Brain MRI Analysis",
+    "teamLeader": "นาย ธีรัช ชมชื่นจิตร์"
+  },
+  {
+    "id": "bai-d28",
+    "booth": "BAI-D28",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "การจำแนก TOAST Classification ของโรคหลอดเลือดสมองขาดเลือดเฉียบพลันจากเวชระเบียนอิเล็กทรอนิกส์แบบไม่มีโครงสร้างด้วยปัญญาประดิษฐ์",
+    "projectName": "AI-Based TOAST Classification of Acute Ischemic Stroke from Unstructured Electronic Medical Records",
+    "teamLeader": "นายทวีลาภ ฉัตรสุธามาศ"
+  },
+  {
+    "id": "bai-d29",
+    "booth": "BAI-D29",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "การพัฒนาแบบจำลองการเรียนรู้ของเครื่องเพื่อการพยากรณ์ความเสี่ยงโรคเบาหวาน",
+    "projectName": "Development of a Machine Learning Model for Diabetes Risk Prediction",
+    "teamLeader": "นาย ปิติกร คล้ายสำเนียง"
+  },
+  {
+    "id": "bai-d30",
+    "booth": "BAI-D30",
+    "category": "Medical AI Award",
+    "track": "Advanced Innovator",
+    "teamName": "SkinLens AI: A Hybrid Deployment Architecture for Dermatological Triage in Thailand",
+    "projectName": "Development of Multi-Class Dermatologic Diagnostic Classification Utilizing Transfer Learning Approach",
+    "teamLeader": "ฉัตรไชย ชูแสง"
+  }
+]

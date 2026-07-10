@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import openpyxl; print\\('openpyxl ok'\\)\")",
+      "Bash(python3 /tmp/claude-1000/-home-gunultimateid-coding-BRIDGE-AI-Booth-Allocations/d783f8a6-ca3f-41ee-9b94-82495cf07b86/scratchpad/dump.py)",
+      "Bash(python3 /tmp/claude-1000/-home-gunultimateid-coding-BRIDGE-AI-Booth-Allocations/d783f8a6-ca3f-41ee-9b94-82495cf07b86/scratchpad/analyze.py)",
+      "Bash(node -e \"import\\('read-excel-file/node'\\).then\\(m=>console.log\\('exports:',Object.keys\\(m\\)\\)\\)\")",
+      "Bash(git mv *)",
+      "Bash(VITE_DATA_SOURCE=mock npm run build)",
+      "Bash(VITE_DATA_SOURCE=nope npm run build)",
+      "Bash(npx esbuild *)",
+      "Bash(node ./.tmp-ssr.mjs)",
+      "Bash(sed -e \"s/useState<string>\\('All'\\);\\\\\\(.*selectedCategory\\\\\\)/useState<string>\\('All'\\);\\\\1/\" src/App.tsx)",
+      "Bash(sed -e '0,/const \\\\[selectedCategory, setSelectedCategory\\\\] = useState<string>\\('\\\\''All'\\\\''\\);/s//const [selectedCategory, setSelectedCategory] = useState<string>\\('\\\\''Medical AI Award'\\\\''\\);/' -e '0,/const \\\\[selectedTrack, setSelectedTrack\\\\] = useState<string>\\('\\\\''All'\\\\''\\);/s//const [selectedTrack, setSelectedTrack] = useState<string>\\('\\\\''Rising Innovator'\\\\''\\);/' src/App.tsx)",
+      "Bash(awk '{print \"size:\", $5}')"
+    ]
+  }
+}

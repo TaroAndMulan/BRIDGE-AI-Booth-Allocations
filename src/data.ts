@@ -1,36 +1,71 @@
+import importedTeams from './generated/teams.json';
+
 export const CATEGORIES = {
-  A: "Medical Education",
-  B: "Clinical",
-  C: "Digital Technology",
-  D: "Medical AI"
+  A: "Medical Education Award",
+  B: "Clinical Award",
+  C: "Digital Technology Award",
+  D: "Medical AI Award"
+} as const;
+
+export const TRACKS = {
+  RISING: "Rising Innovator",
+  ADVANCED: "Advanced Innovator"
 } as const;
 
 export type Category = typeof CATEGORIES[keyof typeof CATEGORIES];
+export type Track = typeof TRACKS[keyof typeof TRACKS];
 
-export type Owner = {
-  fullName: string;
-  email: string;
-};
-
-export type Project = {
+export type Team = {
+  /** Lowercased booth number, e.g. "bai-a01". */
   id: string;
   booth: string;
-  projectName: string;
-  owners: Owner[];
   category: Category;
+  track: Track;
+  /** Team name as submitted — Thai, often with embedded English. */
+  teamName: string;
+  /** Project title in English. */
+  projectName: string;
+  teamLeader: string;
 };
 
-export const MOCK_PROJECTS: Project[] = [
-  { id: "1", booth: "A01", projectName: "NextGen Anatomy VR", owners: [{ fullName: "Somchai Sripasert", email: "somchai.s@hospital.com" }, { fullName: "Manee Phrom", email: "manee.p@hospital.com" }], category: CATEGORIES.A },
-  { id: "2", booth: "A02", projectName: "Interactive CPR Training Dummy", owners: [{ fullName: "Piti Wong", email: "piti.w@university.edu" }, { fullName: "Chujai Kij", email: "chujai.k@university.edu" }, { fullName: "Anan Boon", email: "anan.b@university.edu" }], category: CATEGORIES.A },
-  { id: "3", booth: "A03", projectName: "Gamified Pediatrics Learning App", owners: [{ fullName: "Bella Rattanapong", email: "bella.r@clinic.org" }], category: CATEGORIES.A },
-  { id: "4", booth: "B01", projectName: "Rapid Sepsis Detection Kit", owners: [{ fullName: "Dr. Arak Tanti", email: "arak.t@medcenter.co.th" }, { fullName: "Dr. Bordin Sirisuk", email: "bordin.s@medcenter.co.th" }], category: CATEGORIES.B },
-  { id: "5", booth: "B02", projectName: "Portable ECG Monitor", owners: [{ fullName: "Nadech Kugimiya", email: "nadech.k@healthtech.com" }], category: CATEGORIES.B },
-  { id: "6", booth: "B03", projectName: "Smart IV Drip Controller", owners: [{ fullName: "Pope Thanavat", email: "pope.t@hospital.com" }, { fullName: "Mew Nittha", email: "mew.n@hospital.com" }], category: CATEGORIES.B },
-  { id: "7", booth: "C01", projectName: "Telemedicine Platform for Rural Areas", owners: [{ fullName: "Yaya Urassaya", email: "yaya.u@telemed.org" }, { fullName: "Mario Maurer", email: "mario.m@telemed.org" }, { fullName: "Weir Sukollawat", email: "weir.s@telemed.org" }], category: CATEGORIES.C },
-  { id: "8", booth: "C02", projectName: "Blockchain Health Records", owners: [{ fullName: "Baifern Pimchanok", email: "baifern.p@blockchain.io" }], category: CATEGORIES.C },
-  { id: "9", booth: "C03", projectName: "IoT Smart Hospital Bed", owners: [{ fullName: "James Jirayu", email: "james.j@iothealth.com" }, { fullName: "Taew Natapohn", email: "taew.n@iothealth.com" }], category: CATEGORIES.C },
-  { id: "10", booth: "D01", projectName: "AI-Powered MRI Analysis", owners: [{ fullName: "Sunny Suwanmethanont", email: "sunny.s@aimed.com" }, { fullName: "Ter Chantavit", email: "ter.c@aimed.com" }], category: CATEGORIES.D },
-  { id: "11", booth: "D02", projectName: "Predictive Analytics for Patient Readmission", owners: [{ fullName: "Mai Davika", email: "mai.d@analytics.co.th" }, { fullName: "Mark Prin", email: "mark.p@analytics.co.th" }, { fullName: "Kimberley Anne", email: "kimberley.a@analytics.co.th" }], category: CATEGORIES.D },
-  { id: "12", booth: "D03", projectName: "Chatbot for Mental Health Triage", owners: [{ fullName: "Tor Thanapob", email: "tor.t@chatbot.net" }], category: CATEGORIES.D },
+/** The booth letter encodes the category, so a badge can be coloured from either. */
+export const CATEGORY_LETTER: Record<Category, 'A' | 'B' | 'C' | 'D'> = {
+  [CATEGORIES.A]: 'A',
+  [CATEGORIES.B]: 'B',
+  [CATEGORIES.C]: 'C',
+  [CATEGORIES.D]: 'D',
+};
+
+/**
+ * "Medical AI Award" → "Medical AI". Used for nav links, filter chips, and the
+ * Category column, all of which already sit under an "Award"/"Category" heading.
+ */
+export function categoryLabel(category: Category): string {
+  return category.replace(/ Award$/, '');
+}
+
+export const MOCK_TEAMS: Team[] = [
+  { id: "bai-a01", booth: "BAI-A01", category: CATEGORIES.A, track: TRACKS.RISING, teamName: "V-SCENE: จำลองกรณีศึกษาเสมือนจริงด้วย AI", projectName: "V-SCENE: Personalized AI-Driven Flipped Classroom", teamLeader: "นาย เอกธนา อาศิรวาท" },
+  { id: "bai-a06", booth: "BAI-A06", category: CATEGORIES.A, track: TRACKS.ADVANCED, teamName: "ระบบฝึกทักษะการสื่อสารทางคลินิก", projectName: "Clinical Communication Skills Trainer", teamLeader: "นางสาว ปุณยนุช วรกิจ" },
+  { id: "bai-b01", booth: "BAI-B01", category: CATEGORIES.B, track: TRACKS.RISING, teamName: "ชุดตรวจภาวะติดเชื้อในกระแสเลือดแบบรวดเร็ว", projectName: "Rapid Sepsis Detection Kit", teamLeader: "นพ. อารักษ์ ตันติ" },
+  { id: "bai-b11", booth: "BAI-B11", category: CATEGORIES.B, track: TRACKS.ADVANCED, teamName: "เครื่องติดตามคลื่นไฟฟ้าหัวใจแบบพกพา", projectName: "Portable ECG Monitor", teamLeader: "พญ. ณดา คูกิมิยะ" },
+  { id: "bai-c01", booth: "BAI-C01", category: CATEGORIES.C, track: TRACKS.RISING, teamName: "แพลตฟอร์มโทรเวชกรรมสำหรับพื้นที่ห่างไกล", projectName: "Telemedicine Platform for Rural Areas", teamLeader: "นางสาว อุรัสยา สุขสวัสดิ์" },
+  { id: "bai-c16", booth: "BAI-C16", category: CATEGORIES.C, track: TRACKS.ADVANCED, teamName: "ระบบเวชระเบียนบนบล็อกเชน", projectName: "Blockchain Health Records", teamLeader: "นาย พิมพ์ชนก เลิศพันธ์" },
+  { id: "bai-d01", booth: "BAI-D01", category: CATEGORIES.D, track: TRACKS.RISING, teamName: "ระบบวิเคราะห์ภาพ MRI ด้วยปัญญาประดิษฐ์", projectName: "AI-Powered MRI Analysis", teamLeader: "นาย สุนนท์ สุวรรณเมธานนท์" },
+  { id: "bai-d16", booth: "BAI-D16", category: CATEGORIES.D, track: TRACKS.ADVANCED, teamName: "แชตบอตคัดกรองสุขภาพจิต", projectName: "Chatbot for Mental Health Triage", teamLeader: "นาย ธนภพ ลีรัตนขจร" },
 ];
+
+const dataSource = (import.meta.env.VITE_DATA_SOURCE ?? 'excel').trim().toLowerCase();
+
+if (dataSource !== 'mock' && dataSource !== 'excel') {
+  throw new Error(`Invalid VITE_DATA_SOURCE "${dataSource}". Use "mock" or "excel".`);
+}
+
+if (dataSource === 'excel' && importedTeams.length === 0) {
+  throw new Error('Excel data is enabled, but no teams were imported. Run "npm run import:excel" first.');
+}
+
+/** Unordered; `sortTeams` in ./sort applies the default order and any column sort. */
+export const TEAMS: Team[] = dataSource === 'excel'
+  ? importedTeams as Team[]
+  : MOCK_TEAMS;
