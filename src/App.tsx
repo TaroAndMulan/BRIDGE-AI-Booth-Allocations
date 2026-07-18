@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Search,
   ChevronsUpDown,
@@ -11,6 +11,7 @@ import {
   MonitorSmartphone,
   BrainCircuit,
   LayoutGrid,
+  Award as AwardIcon,
 } from 'lucide-react';
 import { TEAMS, CATEGORIES, categoryLabel } from './data';
 import { MANUAL, TEAM_LIST } from './documents';
@@ -18,6 +19,19 @@ import { createTeamSearch } from './search';
 import { sortTeams, nextSort, type Sort, type SortKey } from './sort';
 import Nav from './components/Nav';
 import DocumentCard from './components/DocumentCard';
+import AwardsView from './components/AwardsView';
+
+type Tab = 'booths' | 'awards' | 'backup';
+
+/** The backup tab is unlisted; it reveals itself only when the URL carries #backup. */
+function tabFromHash(): Tab {
+  const hash = window.location.hash.toLowerCase();
+  if (hash.includes('backup')) return 'backup';
+  if (hash.includes('award')) return 'awards';
+  return 'booths';
+}
+
+const hashHasBackup = () => window.location.hash.toLowerCase().includes('backup');
 
 const CHIP_ITEMS = [
   { label: 'All', value: 'All', Icon: LayoutGrid },
@@ -83,9 +97,33 @@ function SortHeader({ label, sortKey, sort, onSort, className }: SortHeaderProps
 }
 
 export default function App() {
+  const [tab, setTab] = useState<Tab>(tabFromHash);
+  const [backupUnlocked, setBackupUnlocked] = useState(hashHasBackup);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [sort, setSort] = useState<Sort | null>(null);
+
+  // A hand-typed #backup (or #awards) selects that tab and, for backup, unlocks it.
+  useEffect(() => {
+    const onHashChange = () => {
+      setTab(tabFromHash());
+      if (hashHasBackup()) setBackupUnlocked(true);
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
+  const selectTab = (next: Tab) => {
+    setTab(next);
+    // Keep the URL in step without adding history entries or refiring hashchange.
+    const url =
+      next === 'booths'
+        ? window.location.pathname + window.location.search
+        : `#${next}`;
+    window.history.replaceState(null, '', url);
+  };
+
+  const showBackup = backupUnlocked || tab === 'backup';
 
   // Sort before searching: the search keeps literal matches in the order it is given.
   const visibleTeams = useMemo(() => {
@@ -118,6 +156,46 @@ export default function App() {
       <Nav />
 
       <main className="booth-shell" id="top">
+        <div className="tab-bar" role="tablist" aria-label="Sections">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={tab === 'booths'}
+            className={`tab-btn${tab === 'booths' ? ' active' : ''}`}
+            onClick={() => selectTab('booths')}
+          >
+            <LayoutGrid aria-hidden />
+            Booth Allocation
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={tab === 'awards'}
+            className={`tab-btn${tab === 'awards' ? ' active' : ''}`}
+            onClick={() => selectTab('awards')}
+          >
+            <AwardIcon aria-hidden />
+            Awards
+          </button>
+          {showBackup && (
+            <button
+              type="button"
+              role="tab"
+              aria-selected={tab === 'backup'}
+              className={`tab-btn${tab === 'backup' ? ' active' : ''}`}
+              onClick={() => selectTab('backup')}
+            >
+              <AwardIcon aria-hidden />
+              Awards (backup)
+            </button>
+          )}
+        </div>
+
+        {tab === 'awards' && <AwardsView source="live" />}
+        {tab === 'backup' && <AwardsView source="backup" />}
+
+        {tab === 'booths' && (
+        <>
         <p className="eyebrow">BRIDGE-AI Summit 2026</p>
         <div className="rule" />
         <h1 className="section-title">
@@ -249,6 +327,8 @@ export default function App() {
         <p className="result-count">
           Showing {filteredTeams.length} team{filteredTeams.length !== 1 ? 's' : ''} of {TEAMS.length}
         </p>
+        </>
+        )}
       </main>
     </>
   );

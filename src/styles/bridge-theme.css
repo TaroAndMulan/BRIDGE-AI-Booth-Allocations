@@ -54,6 +54,20 @@
   --muted-strong: #4a5a6a;
   --line-strong: rgba(0, 20, 43, 0.18);
   --focus: #fd906e;
+
+  /* Medal accents — text colours clear 4.5:1 on their own tint. */
+  --gold-ink: #8a6d1a;
+  --gold-tint: #fff6e0;
+  --gold-edge: #e6c65c;
+  --silver-ink: #5c6774;
+  --silver-tint: #f1f3f6;
+  --silver-edge: #c4ccd6;
+  --bronze-ink: #9c5a2b;
+  --bronze-tint: #f9ece0;
+  --bronze-edge: #dcae86;
+  --honorable-ink: #2c5380;
+  --honorable-tint: #eef3fb;
+  --honorable-edge: #b9cbe6;
 }
 
 *,
@@ -805,5 +819,270 @@ a {
 
   .empty-state {
     padding: 56px 16px;
+  }
+}
+
+/* ─── Section tabs (Booth / Awards) ──────────────────────────────────────── */
+.tab-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted-strong);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.tab-btn svg {
+  width: 17px;
+  height: 17px;
+}
+
+.tab-btn:hover {
+  color: var(--navy);
+}
+
+.tab-btn.active {
+  color: var(--navy);
+  border-bottom-color: var(--peach);
+}
+
+.tab-btn:focus-visible {
+  outline: 2px solid var(--peach);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Awards status line (live pulse / backup / error) ───────────────────── */
+.awards-status-line {
+  margin: 14px 0 0;
+}
+
+.awards-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted-strong);
+}
+
+.awards-status .link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.awards-status.is-error {
+  color: var(--rose-dark);
+}
+
+.awards-status.is-backup {
+  color: var(--peach-dark);
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #35b877;
+  box-shadow: 0 0 0 0 rgba(53, 184, 119, 0.6);
+  animation: live-pulse 2s infinite;
+}
+
+@keyframes live-pulse {
+  70% {
+    box-shadow: 0 0 0 7px rgba(53, 184, 119, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(53, 184, 119, 0);
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─── Award board: 8 groups (category × track) ───────────────────────────── */
+.award-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.award-group {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.award-group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 18px;
+  background: #fafbfc;
+  border-bottom: 1px solid var(--line);
+}
+
+.award-group-cat {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.award-group-track {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.award-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.award-row {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--line);
+  border-left: 3px solid transparent;
+}
+
+.award-row:last-child {
+  border-bottom: none;
+}
+
+.award-medal {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px 3px 7px;
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.award-medal-emoji {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.award-booth {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+}
+
+.award-project {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.award-project-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.award-leader {
+  font-size: 12.5px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.award-score {
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Medal-specific tints, applied to the row edge and the badge. */
+.award-row.medal-gold {
+  border-left-color: var(--gold-edge);
+}
+.medal-gold .award-medal {
+  background: var(--gold-tint);
+  border-color: var(--gold-edge);
+  color: var(--gold-ink);
+}
+.award-row.medal-silver {
+  border-left-color: var(--silver-edge);
+}
+.medal-silver .award-medal {
+  background: var(--silver-tint);
+  border-color: var(--silver-edge);
+  color: var(--silver-ink);
+}
+.award-row.medal-bronze {
+  border-left-color: var(--bronze-edge);
+}
+.medal-bronze .award-medal {
+  background: var(--bronze-tint);
+  border-color: var(--bronze-edge);
+  color: var(--bronze-ink);
+}
+.award-row.medal-honorable {
+  border-left-color: var(--honorable-edge);
+}
+.medal-honorable .award-medal {
+  background: var(--honorable-tint);
+  border-color: var(--honorable-edge);
+  color: var(--honorable-ink);
+}
+
+@media (max-width: 560px) {
+  .award-board {
+    grid-template-columns: 1fr;
+  }
+  .award-row {
+    grid-template-columns: auto auto 1fr;
+    row-gap: 6px;
+  }
+  /* Score drops under the project on the narrowest screens. */
+  .award-score {
+    grid-column: 3;
+    justify-self: end;
   }
 }

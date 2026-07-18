@@ -8,6 +8,7 @@
     "build": "tsx scripts/validate-data-source.ts && vite build",
     "preview": "vite preview",
     "import:excel": "tsx scripts/import-excel.ts",
+    "import:awards": "tsx scripts/import-awards.ts",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"
   },
