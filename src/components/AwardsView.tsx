@@ -69,11 +69,7 @@ function BackupAwards() {
 
   return (
     <AwardsSection
-      status={
-        <span className="awards-status is-backup">
-          <Award size={15} aria-hidden /> Provisional results — final awards to be announced
-        </span>
-      }
+      status={null}
       groups={groups}
       loading={false}
       emptyMessage={
@@ -87,7 +83,7 @@ function BackupAwards() {
 
 // ─── Shared section: header, filter toolbar, and the medal board ────────────
 type SectionProps = {
-  status: ReactNode;
+  status: ReactNode | null;
   groups: AwardGroup[];
   loading: boolean;
   emptyMessage: string;
@@ -148,7 +144,7 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
       <h1 className="section-title">
         Award <span className="accent">Results</span>
       </h1>
-      <p className="awards-status-line">{status}</p>
+      {status && <p className="awards-status-line">{status}</p>}
 
       <div className="booth-toolbar">
         <label className="search-field">

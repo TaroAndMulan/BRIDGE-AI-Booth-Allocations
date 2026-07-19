@@ -120,10 +120,6 @@
     "medal": "honorable"
   },
   {
-    "booth": "BAI-D01",
-    "medal": "gold"
-  },
-  {
     "booth": "BAI-D02",
     "medal": "silver"
   },
@@ -138,6 +134,10 @@
   {
     "booth": "BAI-D05",
     "medal": "honorable"
+  },
+  {
+    "booth": "BAI-D15",
+    "medal": "gold"
   },
   {
     "booth": "BAI-D16",
