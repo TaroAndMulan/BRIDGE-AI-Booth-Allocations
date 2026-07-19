@@ -60,7 +60,10 @@ function LiveAwards() {
   );
 }
 
-// ─── Backup tab: reads the imported results_2.xlsx ──────────────────────────
+// ─── Awards board: reads the baked results_2 → awards.json ──────────────────
+// This is the public Awards view. It renders instantly from the bundled JSON —
+// no Apps Script round-trip. To publish real/final results: fill results_2.xlsx,
+// run `npm run import:awards`, then rebuild + deploy.
 function BackupAwards() {
   const groups = useMemo(() => getBackupAwards(), []);
 
@@ -68,15 +71,15 @@ function BackupAwards() {
     <AwardsSection
       status={
         <span className="awards-status is-backup">
-          <Award size={15} aria-hidden /> Source: results_2.xlsx (manual backup)
+          <Award size={15} aria-hidden /> Provisional results — final awards to be announced
         </span>
       }
       groups={groups}
       loading={false}
       emptyMessage={
         hasBackupAwards
-          ? 'The backup sheet has no awards that match a known booth.'
-          : 'No backup imported yet. Add an “award” column to results_2.xlsx (1-5 per group) and run “npm run import:awards”.'
+          ? 'No awards match a known booth yet.'
+          : 'Awards have not been published yet. Winners will appear here once results are announced.'
       }
     />
   );

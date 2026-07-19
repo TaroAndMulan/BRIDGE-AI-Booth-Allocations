@@ -155,8 +155,11 @@ export default function App() {
       <Nav tab={tab} onSelectTab={selectTab} showBackup={showBackup} />
 
       <main className="booth-shell" id="top">
-        {tab === 'awards' && <AwardsView source="live" />}
-        {tab === 'backup' && <AwardsView source="backup" />}
+        {/* Public Awards now reads the baked results_2 → awards.json (instant load,
+            no Apps Script wait). The slow live Apps Script view is kept for the
+            admin behind the unlisted #backup hash so it can still be checked. */}
+        {tab === 'awards' && <AwardsView source="backup" />}
+        {tab === 'backup' && <AwardsView source="live" />}
 
         {tab === 'booths' && (
         <>

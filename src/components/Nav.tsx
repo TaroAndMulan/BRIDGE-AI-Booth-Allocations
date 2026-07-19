@@ -69,13 +69,13 @@ export default function Nav({ tab, onSelectTab, showBackup }: NavProps) {
             <button
               type="button"
               role="tab"
-              aria-label="Awards backup"
+              aria-label="Live awards (Apps Script)"
               aria-selected={tab === 'backup'}
               className={`nav-tab${tab === 'backup' ? ' active' : ''}`}
               onClick={() => onSelectTab('backup')}
             >
               <AwardIcon aria-hidden />
-              <span>Backup</span>
+              <span>Live</span>
             </button>
           )}
         </nav>
