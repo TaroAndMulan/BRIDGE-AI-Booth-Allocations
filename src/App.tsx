@@ -22,12 +22,15 @@ import AwardsView from './components/AwardsView';
 
 export type Tab = 'booths' | 'awards' | 'backup';
 
-/** The backup tab is unlisted; it reveals itself only when the URL carries #backup. */
+/**
+ * Awards is the default landing tab. The backup tab is unlisted; it reveals
+ * itself only when the URL carries #backup. Team List lives at #booths.
+ */
 function tabFromHash(): Tab {
   const hash = window.location.hash.toLowerCase();
   if (hash.includes('backup')) return 'backup';
-  if (hash.includes('award')) return 'awards';
-  return 'booths';
+  if (hash.includes('booth') || hash.includes('team')) return 'booths';
+  return 'awards';
 }
 
 const hashHasBackup = () => window.location.hash.toLowerCase().includes('backup');
@@ -115,8 +118,9 @@ export default function App() {
   const selectTab = (next: Tab) => {
     setTab(next);
     // Keep the URL in step without adding history entries or refiring hashchange.
+    // Awards is the default, so it gets the clean URL; the others carry a hash.
     const url =
-      next === 'booths'
+      next === 'awards'
         ? window.location.pathname + window.location.search
         : `#${next}`;
     window.history.replaceState(null, '', url);

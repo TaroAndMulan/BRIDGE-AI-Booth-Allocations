@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Search, Award, RefreshCw, AlertTriangle, LayoutGrid, Activity, Stethoscope, MonitorSmartphone, BrainCircuit } from 'lucide-react';
 import { CATEGORIES, CATEGORY_LETTER, TRACKS, categoryLabel, type Track } from '../data';
 import { MEDAL_META, type AwardGroup } from '../awards';
@@ -119,19 +119,31 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
   const categorySections = useMemo(
     () =>
       Object.values(CATEGORIES)
-        .map((category) => ({
+        .map((category, index) => ({
           category,
           letter: CATEGORY_LETTER[category],
+          number: index + 1,
           tracks: visibleGroups.filter((g) => g.category === category),
-          count: visibleGroups
-            .filter((g) => g.category === category)
-            .reduce((n, g) => n + g.entries.length, 0),
         }))
         .filter((section) => section.tracks.length > 0),
     [visibleGroups],
   );
 
   const total = visibleGroups.reduce((n, g) => n + g.entries.length, 0);
+
+  // Fire the confetti exactly once — the first time the board actually has winners
+  // to show — and never again on filtering, refresh, or reduced-motion setups.
+  const [celebrate, setCelebrate] = useState(false);
+  const celebratedRef = useRef(false);
+  useEffect(() => {
+    if (celebratedRef.current || loading || total === 0) return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    celebratedRef.current = true;
+    setCelebrate(true);
+    const timer = window.setTimeout(() => setCelebrate(false), 8500);
+    return () => window.clearTimeout(timer);
+  }, [loading, total]);
+
   const clearFilters = () => {
     setSearchTerm('');
     setSelectedCategory('All');
@@ -140,6 +152,7 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
 
   return (
     <>
+      {celebrate && <Confetti />}
       <div className="rule" />
       <h1 className="section-title">
         Award <span className="accent">Results</span>
@@ -214,16 +227,20 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
             {categorySections.map((section) => (
               <section className="award-cat" data-cat={section.letter} key={section.category}>
                 <header className="award-cat-head">
-                  <span className="award-cat-badge" aria-hidden>{section.letter}</span>
-                  <h2 className="award-cat-name">{categoryLabel(section.category)}</h2>
-                  <span className="award-cat-count">{section.count} award{section.count !== 1 ? 's' : ''}</span>
+                  <span className="award-cat-badge" aria-hidden>{section.number}</span>
+                  <h2 className="award-cat-name">{section.category}</h2>
                 </header>
                 <div className={`award-cat-tracks${section.tracks.length === 1 ? ' single' : ''}`}>
                   {section.tracks.map((group) => (
                     <div className="award-track" role="list" key={group.track}>
                       <div className="award-track-head">{trackShort(group.track)}</div>
-                      {group.entries.map((entry) => (
-                        <div className={`award-row medal-${entry.medal}`} role="listitem" key={`${entry.booth}-${entry.medal}-${entry.rank ?? ''}`}>
+                      {group.entries.map((entry, i) => (
+                        <div
+                          className={`award-row medal-${entry.medal}`}
+                          role="listitem"
+                          key={`${entry.booth}-${entry.medal}-${entry.rank ?? ''}`}
+                          style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
+                        >
                           <span className="award-medal" title={MEDAL_META[entry.medal].label}>
                             <span className="award-medal-emoji" aria-hidden>{MEDAL_META[entry.medal].emoji}</span>
                             <span className="award-medal-label">{MEDAL_META[entry.medal].short}</span>
@@ -231,6 +248,7 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
                           <span className="award-booth">{entry.booth}</span>
                           <span className="award-project">
                             <span className="award-project-name">{entry.projectName || 'To be announced'}</span>
+                            {entry.teamName && <span className="award-team">{entry.teamName}</span>}
                             {entry.teamLeader && <span className="award-leader">{entry.teamLeader}</span>}
                           </span>
                           {entry.final != null && (
@@ -256,4 +274,46 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
 /** "Rising Innovator (…)" → "Rising Innovator" for the compact group header. */
 function trackShort(track: Track): string {
   return track.split('(')[0].trim();
+}
+
+// ─── Celebration: a one-shot confetti burst when the board first reveals ─────
+const CONFETTI_COLORS = ['#F5C518', '#C9A227', '#4CC3B5', '#5B8DEF', '#E9564B', '#8E7CFF'];
+
+function Confetti() {
+  // Positions/colours are randomised once so the burst is lively but never re-shuffles
+  // mid-fall on a re-render.
+  const pieces = useMemo(
+    () =>
+      Array.from({ length: 180 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        delay: Math.random() * 1.6,
+        duration: 3.8 + Math.random() * 2.6,
+        drift: (Math.random() - 0.5) * 200,
+        color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+        width: 6 + Math.random() * 6,
+        height: 8 + Math.random() * 8,
+      })),
+    [],
+  );
+
+  return (
+    <div className="confetti" aria-hidden>
+      {pieces.map((p) => (
+        <span
+          key={p.id}
+          className="confetti-piece"
+          style={{
+            left: `${p.left}%`,
+            width: `${p.width}px`,
+            height: `${p.height}px`,
+            background: p.color,
+            animationDelay: `${p.delay}s`,
+            animationDuration: `${p.duration}s`,
+            ['--drift' as string]: `${p.drift}px`,
+          }}
+        />
+      ))}
+    </div>
+  );
 }
