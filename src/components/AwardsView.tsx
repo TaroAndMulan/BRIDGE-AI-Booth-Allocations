@@ -1,6 +1,6 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { Search, Award, RefreshCw, AlertTriangle, LayoutGrid, Activity, Stethoscope, MonitorSmartphone, BrainCircuit } from 'lucide-react';
-import { CATEGORIES, TRACKS, categoryLabel, type Track } from '../data';
+import { CATEGORIES, CATEGORY_LETTER, TRACKS, categoryLabel, type Track } from '../data';
 import { MEDAL_META, type AwardGroup } from '../awards';
 import { getBackupAwards, hasBackupAwards, useLiveAwards } from '../awardsSource';
 
@@ -35,7 +35,6 @@ function LiveAwards() {
 
   return (
     <AwardsSection
-      subtitle="Live results, ranked by the judging panel — 50% screening + 50% booth score. Each category and track awards gold, silver, bronze, and two honorable mentions."
       status={
         live.status === 'error' ? (
           <span className="awards-status is-error">
@@ -67,7 +66,6 @@ function BackupAwards() {
 
   return (
     <AwardsSection
-      subtitle="Offline backup — winners read from results_2.xlsx. Use this if the live scoreboard is unavailable."
       status={
         <span className="awards-status is-backup">
           <Award size={15} aria-hidden /> Source: results_2.xlsx (manual backup)
@@ -86,14 +84,13 @@ function BackupAwards() {
 
 // ─── Shared section: header, filter toolbar, and the medal board ────────────
 type SectionProps = {
-  subtitle: string;
   status: ReactNode;
   groups: AwardGroup[];
   loading: boolean;
   emptyMessage: string;
 };
 
-function AwardsSection({ subtitle, status, groups, loading, emptyMessage }: SectionProps) {
+function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedTrack, setSelectedTrack] = useState<string>('All');
@@ -118,6 +115,23 @@ function AwardsSection({ subtitle, status, groups, loading, emptyMessage }: Sect
       .filter((g) => g.entries.length > 0);
   }, [groups, selectedCategory, selectedTrack, query]);
 
+  // Nest the flat groups under their category so the board reads Category → Track,
+  // not a loose grid where unrelated groups sit side by side.
+  const categorySections = useMemo(
+    () =>
+      Object.values(CATEGORIES)
+        .map((category) => ({
+          category,
+          letter: CATEGORY_LETTER[category],
+          tracks: visibleGroups.filter((g) => g.category === category),
+          count: visibleGroups
+            .filter((g) => g.category === category)
+            .reduce((n, g) => n + g.entries.length, 0),
+        }))
+        .filter((section) => section.tracks.length > 0),
+    [visibleGroups],
+  );
+
   const total = visibleGroups.reduce((n, g) => n + g.entries.length, 0);
   const clearFilters = () => {
     setSearchTerm('');
@@ -127,12 +141,10 @@ function AwardsSection({ subtitle, status, groups, loading, emptyMessage }: Sect
 
   return (
     <>
-      <p className="eyebrow">BRIDGE-AI Summit 2026</p>
       <div className="rule" />
       <h1 className="section-title">
         Award <span className="accent">Results</span>
       </h1>
-      <p className="section-sub">{subtitle}</p>
       <p className="awards-status-line">{status}</p>
 
       <div className="booth-toolbar">
@@ -200,30 +212,36 @@ function AwardsSection({ subtitle, status, groups, loading, emptyMessage }: Sect
       ) : (
         <>
           <div className="award-board">
-            {visibleGroups.map((group) => (
-              <section className="award-group" key={`${group.category}-${group.track}`}>
-                <header className="award-group-head">
-                  <h2 className="award-group-cat">{categoryLabel(group.category)}</h2>
-                  <span className="award-group-track">{trackShort(group.track)}</span>
+            {categorySections.map((section) => (
+              <section className="award-cat" data-cat={section.letter} key={section.category}>
+                <header className="award-cat-head">
+                  <span className="award-cat-badge" aria-hidden>{section.letter}</span>
+                  <h2 className="award-cat-name">{categoryLabel(section.category)}</h2>
+                  <span className="award-cat-count">{section.count} award{section.count !== 1 ? 's' : ''}</span>
                 </header>
-                <ol className="award-list">
-                  {group.entries.map((entry) => (
-                    <li className={`award-row medal-${entry.medal}`} key={`${entry.booth}-${entry.medal}-${entry.rank ?? ''}`}>
-                      <span className="award-medal" title={MEDAL_META[entry.medal].label}>
-                        <span className="award-medal-emoji" aria-hidden>{MEDAL_META[entry.medal].emoji}</span>
-                        <span className="award-medal-label">{MEDAL_META[entry.medal].label}</span>
-                      </span>
-                      <span className="award-booth">{entry.booth}</span>
-                      <span className="award-project">
-                        <span className="award-project-name">{entry.projectName || 'To be announced'}</span>
-                        {entry.teamLeader && <span className="award-leader">{entry.teamLeader}</span>}
-                      </span>
-                      {entry.final != null && (
-                        <span className="award-score" title="Weighted total score">{entry.final.toFixed(1)}</span>
-                      )}
-                    </li>
+                <div className={`award-cat-tracks${section.tracks.length === 1 ? ' single' : ''}`}>
+                  {section.tracks.map((group) => (
+                    <div className="award-track" role="list" key={group.track}>
+                      <div className="award-track-head">{trackShort(group.track)}</div>
+                      {group.entries.map((entry) => (
+                        <div className={`award-row medal-${entry.medal}`} role="listitem" key={`${entry.booth}-${entry.medal}-${entry.rank ?? ''}`}>
+                          <span className="award-medal" title={MEDAL_META[entry.medal].label}>
+                            <span className="award-medal-emoji" aria-hidden>{MEDAL_META[entry.medal].emoji}</span>
+                            <span className="award-medal-label">{MEDAL_META[entry.medal].short}</span>
+                          </span>
+                          <span className="award-booth">{entry.booth}</span>
+                          <span className="award-project">
+                            <span className="award-project-name">{entry.projectName || 'To be announced'}</span>
+                            {entry.teamLeader && <span className="award-leader">{entry.teamLeader}</span>}
+                          </span>
+                          {entry.final != null && (
+                            <span className="award-score" title="Weighted total score">{entry.final.toFixed(1)}</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                   ))}
-                </ol>
+                </div>
               </section>
             ))}
           </div>

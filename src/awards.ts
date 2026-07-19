@@ -8,11 +8,11 @@ import { CATEGORIES, TRACKS, type Category, type Track, type Team } from './data
  */
 export type Medal = 'gold' | 'silver' | 'bronze' | 'honorable';
 
-export const MEDAL_META: Record<Medal, { label: string; thai: string; emoji: string; order: number }> = {
-  gold: { label: 'Gold Medal', thai: 'เหรียญทอง', emoji: '🥇', order: 0 },
-  silver: { label: 'Silver Medal', thai: 'เหรียญเงิน', emoji: '🥈', order: 1 },
-  bronze: { label: 'Bronze Medal', thai: 'เหรียญทองแดง', emoji: '🥉', order: 2 },
-  honorable: { label: 'Honorable Mention', thai: 'ชมเชย', emoji: '🏅', order: 3 },
+export const MEDAL_META: Record<Medal, { label: string; short: string; thai: string; emoji: string; order: number }> = {
+  gold: { label: 'Gold Medal', short: 'Gold', thai: 'เหรียญทอง', emoji: '🥇', order: 0 },
+  silver: { label: 'Silver Medal', short: 'Silver', thai: 'เหรียญเงิน', emoji: '🥈', order: 1 },
+  bronze: { label: 'Bronze Medal', short: 'Bronze', thai: 'เหรียญทองแดง', emoji: '🥉', order: 2 },
+  honorable: { label: 'Honorable Mention', short: 'Honorable', thai: 'ชมเชย', emoji: '🏅', order: 3 },
 };
 
 /**

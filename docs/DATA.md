@@ -208,11 +208,37 @@ Whitespace is removed from both the query and the stored value before comparison
 without spaces between words, and the leader column is inconsistent about the space after `นาย`, so
 this makes `นายเอกธนา` and `นาย เอกธนา` equivalent in both directions.
 
+## Awards backup (`results_2.xlsx`)
+
+The Awards tab's offline fallback has its own workbook, `data/results_2.xlsx` — a copy of
+`results.xlsx` with one added `award` column. Only `เลขบูธ` and `award` are read; the rest exist only
+so the file mirrors `results.xlsx`.
+
+`award` holds the placing **within each category × track group**: `1` = Gold, `2` = Silver,
+`3` = Bronze, `4` and `5` = the two Honorable Mentions, blank = no award. Text labels (`gold`,
+`silver`, `bronze`, `honorable`, `ชมเชย`) are accepted and normalized. Each of the 8 groups carries
+one `1`/`2`/`3` and two `4`/`5` → 40 winners. Group membership is taken from the row's own
+`สาขา`/`Track`, so the number alone is unambiguous.
+
+```
+data/results_2.xlsx  ──npm run import:awards──>  src/generated/awards.json  ──vite build──>  dist/
+   booth + award                                    [{ booth, medal }]
+```
+
+The import fails without overwriting the previous `awards.json` on a missing `booth`/`award` column,
+an award that isn't `1`–`5` or a known medal name, an award set on a blank booth, or a duplicate
+booth. Unlike the live Awards view (which fetches a scoreboard at runtime), this path is baked in at
+build time. `data/results_2.xlsx` stays out of `public/` like `results.xlsx`; the generated
+`src/generated/awards.json` is committed. See the README's **Awards** section for the fill-in table
+and the pre-deploy checklist.
+
 ## Updating the data
+
+`data/results.xlsx` (the booth list):
 
 1. Replace `data/results.xlsx`. Keep the Thai headers on sheet 1; column order does not matter.
 2. Run `npm run import:excel` and read the warnings.
 3. Check the printed per-category counts against sheet 2.
 4. `npm run build`.
 
-Never move the workbook into `public/`.
+Never move a workbook into `public/`. For the awards backup, see *Awards backup* above.

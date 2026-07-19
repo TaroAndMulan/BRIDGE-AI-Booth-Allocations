@@ -68,8 +68,14 @@ export function useLiveAwards(pollMs = 60000): LiveAwards & { reload: () => void
     let cancelled = false;
 
     async function load() {
+      // Apps Script can take 5-8s to respond; abort well past that so a genuine
+      // hang surfaces as a retryable error instead of an endless spinner.
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 20000);
       try {
-        const res = await fetch(`${AWARDS_API_URL}?action=getExhibitionSummary`);
+        const res = await fetch(`${AWARDS_API_URL}?action=getExhibitionSummary`, {
+          signal: controller.signal,
+        });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         if (!json?.success) throw new Error(json?.error || 'The scoring service returned an error.');
@@ -109,7 +115,15 @@ export function useLiveAwards(pollMs = 60000): LiveAwards & { reload: () => void
         });
       } catch (error) {
         if (cancelled) return;
-        setState({ status: 'error', message: error instanceof Error ? error.message : String(error) });
+        const message =
+          error instanceof DOMException && error.name === 'AbortError'
+            ? 'The scoring service took too long to respond — tap Retry.'
+            : error instanceof Error
+              ? error.message
+              : String(error);
+        setState({ status: 'error', message });
+      } finally {
+        window.clearTimeout(timeout);
       }
     }
 

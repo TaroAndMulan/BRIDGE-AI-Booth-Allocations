@@ -11,7 +11,6 @@ import {
   MonitorSmartphone,
   BrainCircuit,
   LayoutGrid,
-  Award as AwardIcon,
 } from 'lucide-react';
 import { TEAMS, CATEGORIES, categoryLabel } from './data';
 import { MANUAL, TEAM_LIST } from './documents';
@@ -21,7 +20,7 @@ import Nav from './components/Nav';
 import DocumentCard from './components/DocumentCard';
 import AwardsView from './components/AwardsView';
 
-type Tab = 'booths' | 'awards' | 'backup';
+export type Tab = 'booths' | 'awards' | 'backup';
 
 /** The backup tab is unlisted; it reveals itself only when the URL carries #backup. */
 function tabFromHash(): Tab {
@@ -153,59 +152,18 @@ export default function App() {
 
   return (
     <>
-      <Nav />
+      <Nav tab={tab} onSelectTab={selectTab} showBackup={showBackup} />
 
       <main className="booth-shell" id="top">
-        <div className="tab-bar" role="tablist" aria-label="Sections">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={tab === 'booths'}
-            className={`tab-btn${tab === 'booths' ? ' active' : ''}`}
-            onClick={() => selectTab('booths')}
-          >
-            <LayoutGrid aria-hidden />
-            Booth Allocation
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={tab === 'awards'}
-            className={`tab-btn${tab === 'awards' ? ' active' : ''}`}
-            onClick={() => selectTab('awards')}
-          >
-            <AwardIcon aria-hidden />
-            Awards
-          </button>
-          {showBackup && (
-            <button
-              type="button"
-              role="tab"
-              aria-selected={tab === 'backup'}
-              className={`tab-btn${tab === 'backup' ? ' active' : ''}`}
-              onClick={() => selectTab('backup')}
-            >
-              <AwardIcon aria-hidden />
-              Awards (backup)
-            </button>
-          )}
-        </div>
-
         {tab === 'awards' && <AwardsView source="live" />}
         {tab === 'backup' && <AwardsView source="backup" />}
 
         {tab === 'booths' && (
         <>
-        <p className="eyebrow">BRIDGE-AI Summit 2026</p>
         <div className="rule" />
         <h1 className="section-title">
           Booth <span className="accent">Allocations</span>
         </h1>
-        <p className="section-sub">
-          Search for your team by team name, project title, team leader, or booth number.
-          Teams listed here have been selected for the Exhibition Round. Please note your
-          assigned booth number for poster preparation and on-site registration.
-        </p>
 
         <div className="doc-cards">
           <DocumentCard

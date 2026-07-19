@@ -1,0 +1,11 @@
+import { chromium } from 'playwright';
+const DIR = process.env.SHOTDIR;
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1360, height: 1000 }, deviceScaleFactor: 2 });
+await page.goto('http://localhost:3000/#backup', { waitUntil: 'networkidle' });
+await page.waitForSelector('.award-cat', { timeout: 10000 }).catch(() => {});
+await page.waitForTimeout(600);
+await page.screenshot({ path: `${DIR}/awards-aligned.png` });
+await page.close();
+await browser.close();
+console.log('done');
