@@ -119,10 +119,9 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
   const categorySections = useMemo(
     () =>
       Object.values(CATEGORIES)
-        .map((category, index) => ({
+        .map((category) => ({
           category,
           letter: CATEGORY_LETTER[category],
-          number: index + 1,
           tracks: visibleGroups.filter((g) => g.category === category),
         }))
         .filter((section) => section.tracks.length > 0),
@@ -227,7 +226,7 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
             {categorySections.map((section) => (
               <section className="award-cat" data-cat={section.letter} key={section.category}>
                 <header className="award-cat-head">
-                  <span className="award-cat-badge" aria-hidden>{section.number}</span>
+                  <span className="award-cat-bar" aria-hidden />
                   <h2 className="award-cat-name">{section.category}</h2>
                 </header>
                 <div className={`award-cat-tracks${section.tracks.length === 1 ? ' single' : ''}`}>
@@ -235,26 +234,44 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
                     <div className="award-track" role="list" key={group.track}>
                       <div className="award-track-head">{trackShort(group.track)}</div>
                       {group.entries.map((entry, i) => (
-                        <div
-                          className={`award-row medal-${entry.medal}`}
+                        <article
+                          className={`award-card medal-${entry.medal}`}
                           role="listitem"
                           key={`${entry.booth}-${entry.medal}-${entry.rank ?? ''}`}
                           style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
                         >
-                          <span className="award-medal" title={MEDAL_META[entry.medal].label}>
-                            <span className="award-medal-emoji" aria-hidden>{MEDAL_META[entry.medal].emoji}</span>
-                            <span className="award-medal-label">{MEDAL_META[entry.medal].short}</span>
-                          </span>
-                          <span className="award-booth">{entry.booth}</span>
-                          <span className="award-project">
-                            <span className="award-project-name">{entry.projectName || 'To be announced'}</span>
-                            {entry.teamName && <span className="award-team">{entry.teamName}</span>}
-                            {entry.teamLeader && <span className="award-leader">{entry.teamLeader}</span>}
-                          </span>
-                          {entry.final != null && (
-                            <span className="award-score" title="Weighted total score">{entry.final.toFixed(1)}</span>
+                          {/* Booth top-left, medal top-right — mirrors the team-list card. */}
+                          <div className="award-card-head">
+                            <span className="award-booth">{entry.booth}</span>
+                            <span className="award-medal" title={MEDAL_META[entry.medal].label}>
+                              <span className="award-medal-emoji" aria-hidden>{MEDAL_META[entry.medal].emoji}</span>
+                              <span className="award-medal-label">{MEDAL_META[entry.medal].short}</span>
+                            </span>
+                          </div>
+
+                          <div className="award-card-team">
+                            <div className="award-team-name">
+                              {entry.teamName || entry.projectName || 'To be announced'}
+                            </div>
+                            {entry.teamName && entry.projectName && (
+                              <div className="award-project-sub">{entry.projectName}</div>
+                            )}
+                          </div>
+
+                          {entry.teamLeader && (
+                            <div className="award-meta" data-label="Team Leader">
+                              <span className="award-meta-value">{entry.teamLeader}</span>
+                            </div>
                           )}
-                        </div>
+                          <div className="award-meta" data-label="Track">
+                            <span className="award-meta-value">{trackShort(entry.track)}</span>
+                          </div>
+                          {entry.final != null && (
+                            <div className="award-meta" data-label="Score">
+                              <span className="award-meta-value">{entry.final.toFixed(1)}</span>
+                            </div>
+                          )}
+                        </article>
                       ))}
                     </div>
                   ))}

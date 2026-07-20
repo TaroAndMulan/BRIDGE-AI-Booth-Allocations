@@ -986,17 +986,13 @@ a {
 .award-board {
   display: flex;
   flex-direction: column;
-  gap: 34px;
-  margin-top: 24px;
+  gap: 56px;
+  margin-top: 28px;
 }
 
+/* A plain section, not a card — the winner cards below carry the surfaces. */
 .award-cat {
-  border: 1px solid var(--line-strong);
-  border-left: 4px solid var(--cat-accent, var(--peach));
-  border-radius: var(--r-md);
-  background: var(--paper);
-  box-shadow: var(--shadow-md);
-  overflow: hidden;
+  min-width: 0;
 }
 
 /* One accent per category — matches the booth letter (A01 → Medical Education). */
@@ -1008,33 +1004,28 @@ a {
 .award-cat-head {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 15px 18px;
-  background: var(--cat-tint, #fafbfc);
-  border-bottom: 1px solid var(--line);
+  justify-content: flex-start;
+  gap: 11px;
+  padding: 0;
+  margin-bottom: 14px;
 }
 
-.award-cat-badge {
+/* Thick vertical accent bar marking the start of a category section. */
+.award-cat-bar {
   flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
+  width: 5px;
+  height: 26px;
+  border-radius: var(--r-pill);
   background: var(--cat-accent, var(--peach));
-  color: #fff;
-  font-size: 14px;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
 }
 
 .award-cat-name {
   margin: 0;
   min-width: 0;
-  text-align: center;
-  font-size: 18px;
+  text-align: left;
+  font-size: 20px;
   font-weight: 700;
+  letter-spacing: -0.01em;
   color: var(--navy);
 }
 
@@ -1045,6 +1036,7 @@ a {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(6, auto);
+  column-gap: 16px;
 }
 
 .award-cat-tracks.single {
@@ -1058,45 +1050,95 @@ a {
   grid-row: 1 / -1;
 }
 
-.award-cat-tracks:not(.single) .award-track:first-child {
-  border-right: 1px solid var(--line);
-}
-
 .award-track-head {
-  padding: 9px 18px;
+  padding: 9px 4px 10px;
   font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--muted-strong);
-  background: #fafbfc;
-  border-bottom: 1px solid var(--line);
 }
 
-.award-row {
+/* ── Winner cards — same shape as the mobile team-list card, medal top-right ── */
+.award-card {
   position: relative;
   overflow: hidden;
-  display: grid;
-  grid-template-columns: auto auto 1fr auto;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 18px;
-  border-bottom: 1px solid var(--line);
-  border-left: 3px solid transparent;
+  margin-bottom: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
 }
 
-.award-row:last-child {
-  border-bottom: none;
+.award-card:last-child {
+  margin-bottom: 0;
+}
+
+.award-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.award-card-team {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.award-team-name {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--navy);
+  overflow-wrap: anywhere;
+}
+
+.award-project-sub {
+  margin-top: 5px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+/* Labelled rows (Team Leader, Score), matching the team-list card's key/value look. */
+.award-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.award-meta::before {
+  content: attr(data-label);
+  flex-shrink: 0;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.award-meta-value {
+  text-align: right;
+  font-size: 14px;
+  color: var(--muted-strong);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
 }
 
 /* ── Celebratory motion (skipped entirely for reduced-motion viewers) ──────── */
 @media (prefers-reduced-motion: no-preference) {
-  .award-row {
+  .award-card {
     animation: award-reveal 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  /* A slow sheen sweeping across the gold rows, so the winners quietly shimmer. */
-  .award-row.medal-gold::after {
+  /* A slow sheen sweeping across the gold cards, so the winners quietly shimmer. */
+  .award-card.medal-gold::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -1111,7 +1153,7 @@ a {
     pointer-events: none;
   }
 
-  .award-row.medal-gold .award-medal-emoji {
+  .award-card.medal-gold .award-medal-emoji {
     display: inline-block;
     animation: medal-pop 2.6s ease-in-out 0.6s infinite;
   }
@@ -1182,69 +1224,21 @@ a {
   font-variant-numeric: tabular-nums;
 }
 
-.award-project {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.award-project-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--navy);
-  line-height: 1.35;
-  overflow-wrap: anywhere;
-}
-
-.award-team {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--muted-strong);
-  overflow-wrap: anywhere;
-}
-
-.award-leader {
-  font-size: 12.5px;
-  color: var(--muted);
-  overflow-wrap: anywhere;
-}
-
-.award-score {
-  flex-shrink: 0;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--muted-strong);
-  font-variant-numeric: tabular-nums;
-}
-
-/* Medal-specific tints, applied to the row edge and the badge. */
-.award-row.medal-gold {
-  border-left-color: var(--gold-edge);
-}
+/* Medal-specific tints, applied to the medal badge. */
 .medal-gold .award-medal {
   background: var(--gold-tint);
   border-color: var(--gold-edge);
   color: var(--gold-ink);
-}
-.award-row.medal-silver {
-  border-left-color: var(--silver-edge);
 }
 .medal-silver .award-medal {
   background: var(--silver-tint);
   border-color: var(--silver-edge);
   color: var(--silver-ink);
 }
-.award-row.medal-bronze {
-  border-left-color: var(--bronze-edge);
-}
 .medal-bronze .award-medal {
   background: var(--bronze-tint);
   border-color: var(--bronze-edge);
   color: var(--bronze-ink);
-}
-.award-row.medal-honorable {
-  border-left-color: var(--honorable-edge);
 }
 .medal-honorable .award-medal {
   background: var(--honorable-tint);
@@ -1253,7 +1247,7 @@ a {
 }
 
 /* Below this width the two tracks stack as plain blocks (no subgrid), so each
-   track's medals group together and its divider moves from side to top. */
+   track's cards group under their own track heading. */
 @media (max-width: 760px) {
   .award-cat-tracks,
   .award-cat-tracks.single {
@@ -1262,20 +1256,8 @@ a {
   .award-track {
     display: block;
   }
-  .award-cat-tracks:not(.single) .award-track:first-child {
-    border-right: none;
-    border-bottom: 1px solid var(--line);
-  }
-}
-
-@media (max-width: 560px) {
-  .award-row {
-    grid-template-columns: auto auto 1fr;
-    row-gap: 6px;
-  }
-  /* Score drops under the project on the narrowest screens. */
-  .award-score {
-    grid-column: 3;
-    justify-self: end;
+  /* Give the second track's heading room once the columns stack. */
+  .award-track + .award-track .award-track-head {
+    margin-top: 14px;
   }
 }
