@@ -9,13 +9,14 @@ import { readSheet, type CellValue } from 'read-excel-file/node';
  * ([{ booth, medal }]). It is the offline fallback for the live Apps Script board.
  *
  * The `award` column is filled per category × track group: 1 = gold, 2 = silver,
- * 3 = bronze, 4 & 5 = the two honorable mentions, blank = no award. Text labels
- * ("gold", "honorable", "ชมเชย", …) are accepted too and normalized to the same
- * medal, so a human filling the sheet live can't get it subtly wrong.
+ * 3 = bronze, and 4 or higher = an honorable mention. Usually that's 4 & 5, but a
+ * group can carry an extra one (6, and so on) whenever the judges award more. Blank
+ * = no award. Text labels ("gold", "honorable", "ชมเชย", …) are accepted too and
+ * normalized to the same medal, so a human filling the sheet live can't get it wrong.
  */
 type Medal = 'gold' | 'silver' | 'bronze' | 'honorable';
 
-const MEDAL_FROM_RANK: Record<number, Medal> = { 1: 'gold', 2: 'silver', 3: 'bronze', 4: 'honorable', 5: 'honorable' };
+const MEDAL_FROM_RANK: Record<number, Medal> = { 1: 'gold', 2: 'silver', 3: 'bronze' };
 
 const MEDAL_FROM_TEXT: Record<string, Medal> = {
   gold: 'gold', g: 'gold', 'gold medal': 'gold', ทอง: 'gold', เหรียญทอง: 'gold',
@@ -63,18 +64,22 @@ function findColumns(header: CellValue[]): Record<ColumnKey, number> {
   if (missing.length > 0) {
     throw new Error(
       `Missing required column${missing.length === 1 ? '' : 's'}: ${missing.join(', ')}. ` +
-        'results_2.xlsx must have the booth column plus an "award" column (1-5 or a medal name).',
+        'results_2.xlsx must have the booth column plus an "award" column (1-3, 4+ for honorable, or a medal name).',
     );
   }
 
   return result;
 }
 
-/** A cell → medal, accepting an integer rank (1-5) or a text label. Blank = no award. */
+/** A cell → medal, accepting an integer rank (1-3 = medals, 4+ = honorable) or a
+ *  text label. Blank = no award; 0 or negative is not a valid rank. */
 function parseAward(value: string): Medal | null {
   if (value === '') return null;
   const asNumber = Number(value);
-  if (Number.isInteger(asNumber)) return MEDAL_FROM_RANK[asNumber] ?? null;
+  if (Number.isInteger(asNumber)) {
+    if (asNumber >= 4) return 'honorable'; // 4, 5, 6, … are all honorable mentions
+    return MEDAL_FROM_RANK[asNumber] ?? null; // 1-3 are the single medals; 0/negative invalid
+  }
   return MEDAL_FROM_TEXT[value.toLowerCase().replace(/\s+/g, ' ').trim()] ?? null;
 }
 
@@ -95,7 +100,7 @@ function parseAwards(rows: CellValue[][]): { awards: { booth: string; medal: Med
 
     const medal = parseAward(rawAward);
     if (rawAward !== '' && medal === null) {
-      errors.push(`Row ${spreadsheetRow}: award "${rawAward}" is not 1-5 or a medal name.`);
+      errors.push(`Row ${spreadsheetRow}: award "${rawAward}" is not a rank (1, 2, 3, or 4+ for honorable) or a medal name.`);
       return;
     }
     if (medal === null) return; // booth present but no award — simply not a winner

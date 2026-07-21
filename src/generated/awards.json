@@ -45,11 +45,11 @@
   },
   {
     "booth": "BAI-B02",
-    "medal": "silver"
+    "medal": "bronze"
   },
   {
     "booth": "BAI-B03",
-    "medal": "bronze"
+    "medal": "silver"
   },
   {
     "booth": "BAI-B04",
@@ -61,7 +61,7 @@
   },
   {
     "booth": "BAI-B09",
-    "medal": "gold"
+    "medal": "honorable"
   },
   {
     "booth": "BAI-B10",
@@ -69,11 +69,11 @@
   },
   {
     "booth": "BAI-B11",
-    "medal": "bronze"
+    "medal": "gold"
   },
   {
     "booth": "BAI-B12",
-    "medal": "honorable"
+    "medal": "bronze"
   },
   {
     "booth": "BAI-B13",
@@ -81,34 +81,26 @@
   },
   {
     "booth": "BAI-C01",
-    "medal": "gold"
-  },
-  {
-    "booth": "BAI-C02",
     "medal": "silver"
   },
   {
-    "booth": "BAI-C03",
+    "booth": "BAI-C02",
     "medal": "bronze"
   },
   {
-    "booth": "BAI-C04",
+    "booth": "BAI-C06",
     "medal": "honorable"
   },
   {
-    "booth": "BAI-C05",
+    "booth": "BAI-C11",
+    "medal": "gold"
+  },
+  {
+    "booth": "BAI-C13",
     "medal": "honorable"
   },
   {
     "booth": "BAI-C16",
-    "medal": "gold"
-  },
-  {
-    "booth": "BAI-C17",
-    "medal": "silver"
-  },
-  {
-    "booth": "BAI-C18",
     "medal": "bronze"
   },
   {
@@ -116,40 +108,40 @@
     "medal": "honorable"
   },
   {
-    "booth": "BAI-C20",
+    "booth": "BAI-C21",
     "medal": "honorable"
   },
   {
-    "booth": "BAI-D02",
+    "booth": "BAI-C23",
+    "medal": "gold"
+  },
+  {
+    "booth": "BAI-C29",
     "medal": "silver"
+  },
+  {
+    "booth": "BAI-D01",
+    "medal": "bronze"
   },
   {
     "booth": "BAI-D03",
-    "medal": "bronze"
-  },
-  {
-    "booth": "BAI-D04",
-    "medal": "honorable"
-  },
-  {
-    "booth": "BAI-D05",
-    "medal": "honorable"
-  },
-  {
-    "booth": "BAI-D15",
     "medal": "gold"
   },
   {
-    "booth": "BAI-D16",
-    "medal": "gold"
+    "booth": "BAI-D06",
+    "medal": "honorable"
   },
   {
-    "booth": "BAI-D17",
+    "booth": "BAI-D07",
     "medal": "silver"
   },
   {
-    "booth": "BAI-D18",
-    "medal": "bronze"
+    "booth": "BAI-D09",
+    "medal": "honorable"
+  },
+  {
+    "booth": "BAI-D17",
+    "medal": "gold"
   },
   {
     "booth": "BAI-D19",
@@ -158,5 +150,13 @@
   {
     "booth": "BAI-D20",
     "medal": "honorable"
+  },
+  {
+    "booth": "BAI-D21",
+    "medal": "silver"
+  },
+  {
+    "booth": "BAI-D24",
+    "medal": "bronze"
   }
 ]
