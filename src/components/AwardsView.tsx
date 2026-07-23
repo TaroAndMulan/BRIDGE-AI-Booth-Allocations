@@ -229,7 +229,15 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
                   <span className="award-cat-bar" aria-hidden />
                   <h2 className="award-cat-name">{section.category}</h2>
                 </header>
-                <div className={`award-cat-tracks${section.tracks.length === 1 ? ' single' : ''}`}>
+                <div
+                  className={`award-cat-tracks${section.tracks.length === 1 ? ' single' : ''}`}
+                  // One row for the track heading plus one per award — sized to the
+                  // longest track so a group can carry 6+ honorable mentions, not just 5.
+                  style={{
+                    ['--award-rows' as string]:
+                      1 + Math.max(...section.tracks.map((g) => g.entries.length)),
+                  }}
+                >
                   {section.tracks.map((group) => (
                     <div className="award-track" role="list" key={group.track}>
                       <div className="award-track-head">{trackShort(group.track)}</div>

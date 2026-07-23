@@ -11,26 +11,29 @@ import {
   MonitorSmartphone,
   BrainCircuit,
   LayoutGrid,
+  Download,
 } from 'lucide-react';
-import { TEAMS, CATEGORIES, categoryLabel } from './data';
+import { TEAMS, CATEGORIES, TRACKS, categoryLabel } from './data';
+import { certificateUrl, certificateFilename } from './certificates';
 import { MANUAL, TEAM_LIST } from './documents';
 import { createTeamSearch } from './search';
 import { sortTeams, nextSort, type Sort, type SortKey } from './sort';
 import Nav from './components/Nav';
 import DocumentCard from './components/DocumentCard';
 import AwardsView from './components/AwardsView';
+import AnnouncementModal from './components/AnnouncementModal';
 
 export type Tab = 'booths' | 'awards' | 'backup';
 
 /**
- * Awards is the default landing tab. The backup tab is unlisted; it reveals
- * itself only when the URL carries #backup. Team List lives at #booths.
+ * Team List is the default landing tab. The backup tab is unlisted; it reveals
+ * itself only when the URL carries #backup. Awards lives at #awards.
  */
 function tabFromHash(): Tab {
   const hash = window.location.hash.toLowerCase();
   if (hash.includes('backup')) return 'backup';
-  if (hash.includes('booth') || hash.includes('team')) return 'booths';
-  return 'awards';
+  if (hash.includes('award')) return 'awards';
+  return 'booths';
 }
 
 const hashHasBackup = () => window.location.hash.toLowerCase().includes('backup');
@@ -41,6 +44,12 @@ const CHIP_ITEMS = [
   { label: categoryLabel(CATEGORIES.B), value: CATEGORIES.B, Icon: Stethoscope },
   { label: categoryLabel(CATEGORIES.C), value: CATEGORIES.C, Icon: MonitorSmartphone },
   { label: categoryLabel(CATEGORIES.D), value: CATEGORIES.D, Icon: BrainCircuit },
+];
+
+const TRACK_ITEMS = [
+  { label: 'All tracks', value: 'All' },
+  { label: TRACKS.RISING, value: TRACKS.RISING },
+  { label: TRACKS.ADVANCED, value: TRACKS.ADVANCED },
 ];
 
 /** Phones get cards instead of a table, so the sortable headers are unreachable there. */
@@ -103,6 +112,7 @@ export default function App() {
   const [backupUnlocked, setBackupUnlocked] = useState(hashHasBackup);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedTrack, setSelectedTrack] = useState<string>('All');
   const [sort, setSort] = useState<Sort | null>(null);
 
   // A hand-typed #backup (or #awards) selects that tab and, for backup, unlocks it.
@@ -118,9 +128,9 @@ export default function App() {
   const selectTab = (next: Tab) => {
     setTab(next);
     // Keep the URL in step without adding history entries or refiring hashchange.
-    // Awards is the default, so it gets the clean URL; the others carry a hash.
+    // Team List is the default, so it gets the clean URL; the others carry a hash.
     const url =
-      next === 'awards'
+      next === 'booths'
         ? window.location.pathname + window.location.search
         : `#${next}`;
     window.history.replaceState(null, '', url);
@@ -130,11 +140,13 @@ export default function App() {
 
   // Sort before searching: the search keeps literal matches in the order it is given.
   const visibleTeams = useMemo(() => {
-    const inCategory = TEAMS.filter(
-      (team) => selectedCategory === 'All' || team.category === selectedCategory,
+    const filtered = TEAMS.filter(
+      (team) =>
+        (selectedCategory === 'All' || team.category === selectedCategory) &&
+        (selectedTrack === 'All' || team.track === selectedTrack),
     );
-    return sortTeams(inCategory, sort);
-  }, [selectedCategory, sort]);
+    return sortTeams(filtered, sort);
+  }, [selectedCategory, selectedTrack, sort]);
 
   const searchTeams = useMemo(() => createTeamSearch(visibleTeams), [visibleTeams]);
 
@@ -146,13 +158,16 @@ export default function App() {
   const clearFilters = () => {
     setSearchTerm('');
     setSelectedCategory('All');
+    setSelectedTrack('All');
   };
 
   const handleSort = (key: SortKey) => setSort((current) => nextSort(current, key));
 
   // A filtered-to-one-value column would repeat the same cell on every row.
   const showCategoryColumn = selectedCategory === 'All';
-  const columnCount = showCategoryColumn ? 5 : 4;
+  const showTrackColumn = selectedTrack === 'All';
+  // Booth, Team, Leader, Certificate are always shown; Category and Track are optional.
+  const columnCount = (showCategoryColumn ? 1 : 0) + (showTrackColumn ? 1 : 0) + 4;
 
   return (
     <>
@@ -167,6 +182,7 @@ export default function App() {
 
         {tab === 'booths' && (
         <>
+        <AnnouncementModal />
         <div className="rule" />
         <h1 className="section-title">
           Booth <span className="accent">Allocations</span>
@@ -220,6 +236,23 @@ export default function App() {
             </div>
           </div>
 
+          <div className="toolbar-row">
+            <span className="toolbar-label" id="track-filter-label">Track</span>
+            <div className="toolbar-chips" role="group" aria-labelledby="track-filter-label">
+              {TRACK_ITEMS.map(({ label, value }) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={`chip${selectedTrack === value ? ' active' : ''}`}
+                  aria-pressed={selectedTrack === value}
+                  onClick={() => setSelectedTrack(value)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <label className="toolbar-row mobile-sort">
             <span className="toolbar-label">Sort by</span>
             <select
@@ -245,7 +278,11 @@ export default function App() {
                   {showCategoryColumn && (
                     <SortHeader label="Category" sortKey="category" sort={sort} onSort={handleSort} className="col-narrow" />
                   )}
-                  <SortHeader label="Track" sortKey="track" sort={sort} onSort={handleSort} className="col-narrow" />
+                  {showTrackColumn && (
+                    <SortHeader label="Track" sortKey="track" sort={sort} onSort={handleSort} className="col-narrow" />
+                  )}
+                  {/* Certificate is a per-team download, not a sortable field. */}
+                  <th className="col-narrow col-cert">Certificate</th>
                 </tr>
               </thead>
               <tbody>
@@ -266,8 +303,30 @@ export default function App() {
                         <div className="cat-cell">{categoryLabel(team.category)}</div>
                       </td>
                     )}
-                    <td className="col-narrow" data-label="Track">
-                      <div className="track-cell">{team.track}</div>
+                    {showTrackColumn && (
+                      <td className="col-narrow" data-label="Track">
+                        <div className="track-cell">{team.track}</div>
+                      </td>
+                    )}
+                    <td className="col-narrow cell-cert" data-label="Certificate">
+                      <div>
+                        {(() => {
+                          const url = certificateUrl(team.id);
+                          return url ? (
+                            <a
+                              className="cert-btn"
+                              href={url}
+                              download={certificateFilename(team.booth)}
+                              aria-label={`Download certificate for booth ${team.booth}`}
+                            >
+                              <Download size={14} aria-hidden />
+                              Download
+                            </a>
+                          ) : (
+                            <span className="cert-none" aria-label="Certificate not available">—</span>
+                          );
+                        })()}
+                      </div>
                     </td>
                   </tr>
                 ))}

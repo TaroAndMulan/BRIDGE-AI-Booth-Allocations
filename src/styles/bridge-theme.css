@@ -760,6 +760,189 @@ a {
   color: var(--muted-strong);
 }
 
+/* The Certificate header is not sortable, so it needs the padding .sort-btn
+   would otherwise supply for the other headers. */
+.col-cert {
+  padding: 18px 22px;
+}
+
+/* A small download pill; peach accent on hover, matching .chip's palette. */
+.cert-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--peach-dark);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+}
+
+.cert-btn:hover {
+  border-color: var(--peach);
+  background: rgba(252, 144, 110, 0.08);
+  color: var(--rose-dark);
+}
+
+.cert-btn:focus-visible {
+  outline: 2px solid var(--peach);
+  outline-offset: 2px;
+}
+
+.cert-btn svg {
+  flex-shrink: 0;
+}
+
+.cert-none {
+  color: var(--muted);
+}
+
+/* ─── Announcement modal ─────────────────────────────────────────────────── */
+.announce-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 20, 43, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: announce-fade 0.2s ease;
+}
+
+.announce-card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  padding: 40px 32px 32px;
+  border-radius: var(--r-md);
+  background: var(--paper);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  animation: announce-pop 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.announce-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: var(--r-pill);
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.announce-close:hover {
+  background: rgba(0, 20, 43, 0.05);
+  color: var(--navy);
+}
+
+.announce-close:focus-visible {
+  outline: 2px solid var(--peach);
+  outline-offset: 2px;
+}
+
+/* A peach-tinted disc behind the award icon — the same accent as the filter chips. */
+.announce-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 18px;
+  border-radius: var(--r-pill);
+  background: rgba(252, 144, 110, 0.12);
+  color: var(--peach-dark);
+}
+
+.announce-eyebrow {
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--peach-dark);
+}
+
+.announce-title {
+  margin: 0 0 12px;
+  font-size: 21px;
+  line-height: 1.4;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.announce-body {
+  margin: 0 0 26px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted-strong);
+}
+
+.announce-body strong {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+/* Navy fill, not peach: white-on-navy clears contrast where white-on-peach would not. */
+.announce-cta {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: var(--r-pill);
+  background: var(--navy);
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.16s ease, transform 0.12s ease;
+}
+
+.announce-cta:hover {
+  background: var(--ink);
+}
+
+.announce-cta:active {
+  transform: translateY(1px);
+}
+
+.announce-cta:focus-visible {
+  outline: 2px solid var(--peach);
+  outline-offset: 2px;
+}
+
+@keyframes announce-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes announce-pop {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announce-overlay,
+  .announce-card {
+    animation: none;
+  }
+}
+
 .result-count {
   margin-top: 18px;
   text-align: center;
@@ -815,7 +998,7 @@ a {
 }
 
 /* ─── Compact layout: the table becomes a list of cards ──────────────────── */
-/* 860px matches the nav's compact breakpoint. Below it a 5-column table needs
+/* 860px matches the nav's compact breakpoint. Below it a 6-column table needs
    horizontal scrolling, which a booth lookup should never require. */
 @media (max-width: 860px) {
   .booth-shell {
@@ -1035,7 +1218,8 @@ a {
 .award-cat-tracks {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(6, auto);
+  /* Heading + N award rows, set per category so a 6th (or more) award still fits. */
+  grid-template-rows: repeat(var(--award-rows, 6), auto);
   column-gap: 16px;
 }
 

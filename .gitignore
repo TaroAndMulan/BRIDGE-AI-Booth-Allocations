@@ -15,3 +15,10 @@ data/*.xlsx
 # Source PDFs. public/ holds what the site serves: manual.pdf is a 2.1MB
 # re-encode of the 13MB master, team-list.pdf is copied verbatim.
 data/*.pdf
+
+# The 90 per-team certificates (~51MB of source, one PDF per booth) and the
+# served copies. `npm run import:certificates` (part of the build) regenerates
+# public/certificates/ from the source; the committed manifest,
+# src/generated/certificates.json, is what dev reads.
+data/certificate/
+public/certificates/
