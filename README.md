@@ -181,6 +181,56 @@ The importer fails without overwriting the previous data on missing columns, unk
 tracks, blank required fields, duplicate booths, and booth/category mismatches. It warns on team
 names that contain no Thai text.
 
+## Certificates
+
+Every qualifying team has one certificate PDF, downloadable from a **Certificate** column in the team
+table. There are 90 of them — one per booth — and, like the booth list, they are served straight from
+the site with no external hosting: `public/certificates/` is copied into `dist/` by Vite and shipped
+by `deploy.sh`.
+
+The source PDFs live under `data/certificate/PDF/`, sorted into a folder per category:
+
+```
+data/certificate/PDF/Medical Education/Bridge Certificate Medical Education_A01.pdf
+data/certificate/PDF/Digital Technology/Bridge Certificate Digital Technology 2_C26.pdf
+```
+
+**The booth suffix at the end of each file name is the only part that matters.** Prefix it with
+`BAI-` and you have the team's booth (`_A01` → `BAI-A01`, `_C26` → `BAI-C26`). The folder and the
+trailing ` 1`/` 2` batch label are decorative and ignored. This is why the mapping needs no lookup
+table: [src/certificates.ts](src/certificates.ts) builds each URL straight from `team.id`.
+
+### Importing the certificates
+
+`npm run import:certificates` (also run automatically as the first step of `npm run build`) copies
+`data/certificate/PDF/**/*_<suffix>.pdf` to `public/certificates/<id>.pdf` (e.g. `bai-c26.pdf`) —
+space-free, predictable names — and writes `src/generated/certificates.json`, an `{ id: hash }`
+manifest. The hash is appended to the URL as `?v=` for cache-busting, exactly like the two PDFs. It
+cross-checks against `teams.json`, warning on any team with no certificate or any certificate with no
+team.
+
+```bash
+npm run import:certificates   # copies to public/certificates/ and writes the manifest
+npm run build                 # runs the import, then builds
+```
+
+Add, rename, or replace a file in `data/certificate/PDF/`, rebuild, and deploy — nothing else to
+touch. A team missing from the manifest simply shows no download button (an em dash) instead of a
+broken link.
+
+> **The 90 PDFs are ~51 MB and gitignored** (`data/certificate/` and `public/certificates/`), like
+> the other masters. Only the small `src/generated/certificates.json` manifest is committed — the
+> build regenerates `public/certificates/` from the source, which is what dev (`npm run dev`, no
+> build step) reads. Whoever holds the source PDFs is the one who deploys.
+
+### Announcement modal
+
+A one-off popup over the team list announces that certificates are ready
+([src/components/AnnouncementModal.tsx](src/components/AnnouncementModal.tsx)). It shows at most once
+per browser session, for up to `MAX_SHOWS` (5) separate visits, then stops — a reminder, not a nag.
+The count is keyed to `ANNOUNCEMENT_VERSION`; bump that constant to re-announce something new to
+everyone with a fresh count.
+
 ## Checks
 
 ```bash

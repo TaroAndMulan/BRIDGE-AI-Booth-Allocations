@@ -2,33 +2,49 @@ import { useEffect, useRef, useState } from 'react';
 import { Award, X } from 'lucide-react';
 
 /**
- * A one-time announcement shown over the team list. It remembers dismissal in
- * localStorage keyed by version, so it appears once per visitor — bump
- * ANNOUNCEMENT_VERSION to re-announce something new to everyone.
+ * An announcement shown over the team list. It appears at most once per browser
+ * session, for up to MAX_SHOWS separate visits, then stops — so a returning
+ * visitor is reminded a few times without being nagged on every page load or
+ * tab switch. Counting is per version: bump ANNOUNCEMENT_VERSION to re-announce
+ * to everyone with a fresh count.
  */
 const ANNOUNCEMENT_VERSION = 'certificates-2026';
-const STORAGE_KEY = 'bridge-announcement-dismissed';
+const MAX_SHOWS = 5;
+const COUNT_KEY = `bridge-announcement-shows:${ANNOUNCEMENT_VERSION}`;
+const SESSION_KEY = `bridge-announcement-seen:${ANNOUNCEMENT_VERSION}`;
 
-function alreadyDismissed(): boolean {
+/**
+ * Decide whether to show the announcement now and, if so, record the view.
+ * Returns true at most once per session and no more than MAX_SHOWS times total.
+ */
+function shouldShowAndRecord(): boolean {
   try {
-    return localStorage.getItem(STORAGE_KEY) === ANNOUNCEMENT_VERSION;
+    // Already shown in this tab session (e.g. after switching tabs) — don't repeat.
+    if (sessionStorage.getItem(SESSION_KEY)) return false;
+    const shown = Number(localStorage.getItem(COUNT_KEY)) || 0;
+    if (shown >= MAX_SHOWS) return false;
+    sessionStorage.setItem(SESSION_KEY, '1');
+    localStorage.setItem(COUNT_KEY, String(shown + 1));
+    return true;
   } catch {
-    return false; // Private mode blocks storage; showing it once is harmless.
+    return true; // Storage blocked — show it; it just won't be counted.
   }
 }
 
 export default function AnnouncementModal() {
-  const [open, setOpen] = useState(() => !alreadyDismissed());
+  const [open, setOpen] = useState(false);
+  const recorded = useRef(false);
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  const dismiss = () => {
-    setOpen(false);
-    try {
-      localStorage.setItem(STORAGE_KEY, ANNOUNCEMENT_VERSION);
-    } catch {
-      /* Storage blocked — the modal simply reappears next visit. */
-    }
-  };
+  // Decide once on mount. The ref guards against React 18 StrictMode's
+  // double-invoked effects in dev, so a single visit is counted once.
+  useEffect(() => {
+    if (recorded.current) return;
+    recorded.current = true;
+    if (shouldShowAndRecord()) setOpen(true);
+  }, []);
+
+  const dismiss = () => setOpen(false);
 
   useEffect(() => {
     if (!open) return;
