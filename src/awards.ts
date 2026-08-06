@@ -16,6 +16,18 @@ export const MEDAL_META: Record<Medal, { label: string; short: string; thai: str
 };
 
 /**
+ * Cross-cutting prizes awarded once for the whole competition, on top of a team's
+ * category × track medal: one Popular Award and two Grand Prizes. A team can hold
+ * both a medal and one of these, so it lives alongside `medal`, not instead of it.
+ */
+export type SpecialAward = 'grand' | 'popular';
+
+export const SPECIAL_META: Record<SpecialAward, { label: string; short: string; thai: string; emoji: string }> = {
+  grand: { label: 'Grand Prize', short: 'Grand Prize', thai: 'รางวัลใหญ่', emoji: '🏆' },
+  popular: { label: 'Popular Award', short: 'Popular', thai: 'ขวัญใจมหาชน', emoji: '⭐' },
+};
+
+/**
  * Rank within a category × track group → medal. Ranks 1-3 are the single medals;
  * 4 and 5 are the two honorable mentions. Rank 6+ (or 0/blank) is not awarded.
  * This is the one mapping shared by both data sources.
@@ -49,6 +61,8 @@ export type AwardEntry = {
   final: number | null;
   /** Original 1-5 rank when known; orders the two honorable mentions. */
   rank: number | null;
+  /** A cross-cutting prize (Grand Prize / Popular Award), when the team won one. */
+  special: SpecialAward | null;
 };
 
 export type AwardGroup = {
@@ -90,7 +104,7 @@ export function groupAwards(entries: AwardEntry[]): AwardGroup[] {
 export function entryFromTeam(
   team: Team,
   medal: Medal,
-  extra: { final?: number | null; rank?: number | null } = {},
+  extra: { final?: number | null; rank?: number | null; special?: SpecialAward | null } = {},
 ): AwardEntry {
   return {
     booth: team.booth,
@@ -102,5 +116,6 @@ export function entryFromTeam(
     teamLeader: team.teamLeader,
     final: extra.final ?? null,
     rank: extra.rank ?? null,
+    special: extra.special ?? null,
   };
 }

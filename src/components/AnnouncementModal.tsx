@@ -8,7 +8,7 @@ import { Award, X } from 'lucide-react';
  * tab switch. Counting is per version: bump ANNOUNCEMENT_VERSION to re-announce
  * to everyone with a fresh count.
  */
-const ANNOUNCEMENT_VERSION = 'certificates-2026';
+const ANNOUNCEMENT_VERSION = 'certificates-2026-2';
 const MAX_SHOWS = 5;
 const COUNT_KEY = `bridge-announcement-shows:${ANNOUNCEMENT_VERSION}`;
 const SESSION_KEY = `bridge-announcement-seen:${ANNOUNCEMENT_VERSION}`;
@@ -89,7 +89,9 @@ export default function AnnouncementModal() {
         <p className="announce-body">
           Certificates are now available. Download your team's official BRIDGE
           AI&nbsp;Summit&nbsp;2026 certificate from the{' '}
-          <strong>Certificate</strong> column in the list below.
+          <strong>Certificate</strong> column in the list below. Award winners can
+          also download their medal, Grand&nbsp;Prize, or Popular&nbsp;Award
+          certificate from the <strong>Awards</strong> tab.
         </p>
 
         <button type="button" className="announce-cta" onClick={dismiss}>

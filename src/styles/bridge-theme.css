@@ -1218,8 +1218,10 @@ a {
 .award-cat-tracks {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* Heading + N award rows, set per category so a 6th (or more) award still fits. */
-  grid-template-rows: repeat(var(--award-rows, 6), auto);
+  /* One heading row, then per card: header band, meta band, footer band, and a
+     10px gap row. Cards span the three bands (see .award-card), so those bands
+     line up across the two track columns regardless of title length. */
+  grid-template-rows: auto repeat(var(--card-count, 5), auto auto auto 10px);
   column-gap: 16px;
 }
 
@@ -1244,19 +1246,30 @@ a {
 }
 
 /* ── Winner cards — same shape as the mobile team-list card, medal top-right ── */
+/* The card is itself a subgrid of three rows (header / meta / footer) taken from
+   the parent grid, so those bands align with the sibling card in the other track
+   column. Padding lives on the bands, not the card, so the subgrid rows nest
+   cleanly. On mobile the parent is a plain block, so this degrades to a normal
+   3-row grid and the bands simply stack. */
 .award-card {
   position: relative;
+  display: grid;
+  grid-template-rows: subgrid;
   overflow: hidden;
-  margin-bottom: 10px;
-  padding: 14px 16px;
   border: 1px solid var(--line);
   border-radius: var(--r-sm);
   background: var(--paper);
   box-shadow: var(--shadow-sm);
 }
 
-.award-card:last-child {
-  margin-bottom: 0;
+/* The three bands. Extra height from a shorter card settles at the bottom of the
+   header band (below the title) and above the footer, never after it. */
+.award-card-top {
+  padding: 14px 16px 12px;
+}
+.award-card-mid {
+  padding: 2px 16px 12px;
+  border-top: 1px solid var(--line);
 }
 
 .award-card-head {
@@ -1265,11 +1278,6 @@ a {
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 8px;
-}
-
-.award-card-team {
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--line);
 }
 
 .award-team-name {
@@ -1430,6 +1438,92 @@ a {
   color: var(--honorable-ink);
 }
 
+/* ── Special awards (Grand Prize / Popular Award) ─────────────────────────── */
+/* A subtle coloured ring marks the three cross-cutting winners at a glance. */
+.award-card.has-special {
+  border-color: var(--special-edge);
+  box-shadow: 0 0 0 2px var(--special-ring), var(--shadow-sm);
+}
+.award-card.special-grand { --special-edge: var(--gold-edge); --special-ring: rgba(230, 198, 92, 0.38); }
+.award-card.special-popular { --special-edge: var(--peach); --special-ring: rgba(252, 144, 110, 0.3); }
+
+/* The badge itself, sitting between the head and the team name. */
+.award-special {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+  padding: 4px 11px;
+  border-radius: var(--r-pill);
+  font-size: 11.5px;
+  font-weight: 800;
+}
+.award-special.special-grand {
+  background: linear-gradient(120deg, #fdf0cd, #f7dd93);
+  border: 1px solid var(--gold-edge);
+  color: var(--gold-ink);
+}
+.award-special.special-popular {
+  background: rgba(252, 144, 110, 0.14);
+  border: 1px solid var(--peach);
+  color: var(--peach-dark);
+}
+
+/* A footer band at the base of the card — bled to the edges with its own line
+   and tint so the certificate download stands apart from the meta rows above. */
+/* The footer band fills its own subgrid row across the full card width. */
+.award-card-actions {
+  padding: 11px 16px 13px;
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 var(--r-sm) var(--r-sm);
+  background: #fafbfc;
+}
+.award-actions-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.award-actions-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.award-card-actions .cert-btn {
+  padding: 7px 12px;
+  font-size: 12.5px;
+}
+/* The plain medal button reads cleanly as white on the tinted footer; the
+   special buttons keep their gold / peach fill. */
+.award-card-actions .cert-btn:not(.cert-btn-special) {
+  background: var(--paper);
+}
+
+/* The special-cert button takes the award's colour so the two buttons read apart. */
+.cert-btn-special.special-grand {
+  border-color: var(--gold-edge);
+  color: var(--gold-ink);
+  background: var(--gold-tint);
+}
+.cert-btn-special.special-grand:hover {
+  border-color: var(--gold-edge);
+  background: #fbeecb;
+  color: var(--gold-ink);
+}
+.cert-btn-special.special-popular {
+  border-color: var(--peach);
+  color: var(--peach-dark);
+  background: rgba(252, 144, 110, 0.08);
+}
+.cert-btn-special.special-popular:hover {
+  border-color: var(--peach);
+  background: rgba(252, 144, 110, 0.14);
+  color: var(--rose-dark);
+}
+
 /* Below this width the two tracks stack as plain blocks (no subgrid), so each
    track's cards group under their own track heading. */
 @media (max-width: 760px) {
@@ -1439,6 +1533,12 @@ a {
   }
   .award-track {
     display: block;
+  }
+  /* No shared grid to space the cards here; restore the inter-card margin. On
+     desktop that gap comes from the grid's dedicated gap row instead. */
+  .award-card {
+    display: block;
+    margin-bottom: 10px;
   }
   /* Give the second track's heading room once the columns stack. */
   .award-track + .award-track .award-track-head {

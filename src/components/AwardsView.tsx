@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Search, Award, RefreshCw, AlertTriangle, LayoutGrid, Activity, Stethoscope, MonitorSmartphone, BrainCircuit } from 'lucide-react';
+import { Search, Award, RefreshCw, AlertTriangle, LayoutGrid, Activity, Stethoscope, MonitorSmartphone, BrainCircuit, Download } from 'lucide-react';
 import { CATEGORIES, CATEGORY_LETTER, TRACKS, categoryLabel, type Track } from '../data';
-import { MEDAL_META, type AwardGroup } from '../awards';
+import { MEDAL_META, SPECIAL_META, type AwardGroup } from '../awards';
 import { getBackupAwards, hasBackupAwards, useLiveAwards } from '../awardsSource';
+import { medalCertificateUrl, specialCertificateUrl, awardCertificateFilename } from '../awardCertificates';
 
 const CHIP_ITEMS = [
   { label: 'All', value: 'All', Icon: LayoutGrid },
@@ -16,6 +17,13 @@ const TRACK_ITEMS = [
   { label: 'All tracks', value: 'All' },
   { label: TRACKS.RISING, value: TRACKS.RISING },
   { label: TRACKS.ADVANCED, value: TRACKS.ADVANCED },
+];
+
+// The two cross-cutting prizes, shared across every category and track.
+const SPECIAL_ITEMS = [
+  { label: 'All awards', value: 'All' },
+  { label: `${SPECIAL_META.grand.emoji} ${SPECIAL_META.grand.label}`, value: 'grand' },
+  { label: `${SPECIAL_META.popular.emoji} ${SPECIAL_META.popular.label}`, value: 'popular' },
 ];
 
 type Props = { source: 'live' | 'backup' };
@@ -93,6 +101,7 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedTrack, setSelectedTrack] = useState<string>('All');
+  const [selectedSpecial, setSelectedSpecial] = useState<string>('All');
 
   const query = searchTerm.trim().toLowerCase();
 
@@ -102,17 +111,19 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
       .filter((g) => selectedTrack === 'All' || g.track === selectedTrack)
       .map((g) => ({
         ...g,
-        entries: query
-          ? g.entries.filter((e) =>
-              [e.booth, e.projectName, e.teamName ?? '', e.teamLeader ?? '', MEDAL_META[e.medal].label]
+        entries: g.entries.filter(
+          (e) =>
+            (selectedSpecial === 'All' || e.special === selectedSpecial) &&
+            (!query ||
+              [e.booth, e.projectName, e.teamName ?? '', e.teamLeader ?? '', MEDAL_META[e.medal].label,
+                e.special ? SPECIAL_META[e.special].label : '']
                 .join(' ')
                 .toLowerCase()
-                .includes(query),
-            )
-          : g.entries,
+                .includes(query)),
+        ),
       }))
       .filter((g) => g.entries.length > 0);
-  }, [groups, selectedCategory, selectedTrack, query]);
+  }, [groups, selectedCategory, selectedTrack, selectedSpecial, query]);
 
   // Nest the flat groups under their category so the board reads Category → Track,
   // not a loose grid where unrelated groups sit side by side.
@@ -147,7 +158,10 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
     setSearchTerm('');
     setSelectedCategory('All');
     setSelectedTrack('All');
+    setSelectedSpecial('All');
   };
+
+  const anyFilter = Boolean(query) || selectedCategory !== 'All' || selectedTrack !== 'All' || selectedSpecial !== 'All';
 
   return (
     <>
@@ -205,6 +219,23 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
             ))}
           </div>
         </div>
+
+        <div className="toolbar-row">
+          <span className="toolbar-label" id="awards-special-label">Special award</span>
+          <div className="toolbar-chips" role="group" aria-labelledby="awards-special-label">
+            {SPECIAL_ITEMS.map(({ label, value }) => (
+              <button
+                key={value}
+                type="button"
+                className={`chip${selectedSpecial === value ? ' active' : ''}`}
+                aria-pressed={selectedSpecial === value}
+                onClick={() => setSelectedSpecial(value)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {loading ? (
@@ -215,8 +246,8 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
       ) : visibleGroups.length === 0 ? (
         <div className="empty-state">
           <Award size={30} style={{ color: 'var(--line-strong)', margin: '0 auto 12px' }} aria-hidden />
-          <p style={{ margin: '0 0 14px' }}>{query || selectedCategory !== 'All' || selectedTrack !== 'All' ? 'No winners match your filters.' : emptyMessage}</p>
-          {(query || selectedCategory !== 'All' || selectedTrack !== 'All') && (
+          <p style={{ margin: '0 0 14px' }}>{anyFilter ? 'No winners match your filters.' : emptyMessage}</p>
+          {anyFilter && (
             <button type="button" className="link-btn" onClick={clearFilters}>Clear filters</button>
           )}
         </div>
@@ -231,56 +262,105 @@ function AwardsSection({ status, groups, loading, emptyMessage }: SectionProps) 
                 </header>
                 <div
                   className={`award-cat-tracks${section.tracks.length === 1 ? ' single' : ''}`}
-                  // One row for the track heading plus one per award — sized to the
-                  // longest track so a group can carry 6+ honorable mentions, not just 5.
+                  // Longest track's card count. The grid lays out 3 subgrid rows per
+                  // card (header / meta / footer) so those bands line up across the two
+                  // track columns; see .award-cat-tracks in the stylesheet.
                   style={{
-                    ['--award-rows' as string]:
-                      1 + Math.max(...section.tracks.map((g) => g.entries.length)),
+                    ['--card-count' as string]:
+                      Math.max(...section.tracks.map((g) => g.entries.length)),
                   }}
                 >
                   {section.tracks.map((group) => (
                     <div className="award-track" role="list" key={group.track}>
                       <div className="award-track-head">{trackShort(group.track)}</div>
-                      {group.entries.map((entry, i) => (
+                      {group.entries.map((entry, i) => {
+                        const id = entry.booth.toLowerCase();
+                        const medalUrl = medalCertificateUrl(id);
+                        const specialUrl = entry.special ? specialCertificateUrl(id) : null;
+                        return (
                         <article
-                          className={`award-card medal-${entry.medal}`}
+                          className={`award-card medal-${entry.medal}${entry.special ? ` has-special special-${entry.special}` : ''}`}
                           role="listitem"
                           key={`${entry.booth}-${entry.medal}-${entry.rank ?? ''}`}
-                          style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
+                          // Each card occupies three subgrid rows (+ a gap row): the
+                          // header, meta, and footer bands then align across both columns.
+                          style={{ gridRow: `${2 + i * 4} / span 3`, animationDelay: `${Math.min(i, 8) * 60}ms` }}
                         >
-                          {/* Booth top-left, medal top-right — mirrors the team-list card. */}
-                          <div className="award-card-head">
-                            <span className="award-booth">{entry.booth}</span>
-                            <span className="award-medal" title={MEDAL_META[entry.medal].label}>
-                              <span className="award-medal-emoji" aria-hidden>{MEDAL_META[entry.medal].emoji}</span>
-                              <span className="award-medal-label">{MEDAL_META[entry.medal].short}</span>
-                            </span>
+                          <div className="award-card-top">
+                            {/* Booth top-left, medal top-right — mirrors the team-list card. */}
+                            <div className="award-card-head">
+                              <span className="award-booth">{entry.booth}</span>
+                              <span className="award-medal" title={MEDAL_META[entry.medal].label}>
+                                <span className="award-medal-emoji" aria-hidden>{MEDAL_META[entry.medal].emoji}</span>
+                                <span className="award-medal-label">{MEDAL_META[entry.medal].short}</span>
+                              </span>
+                            </div>
+
+                            {entry.special && (
+                              <div className={`award-special special-${entry.special}`}>
+                                <span aria-hidden>{SPECIAL_META[entry.special].emoji}</span>
+                                {SPECIAL_META[entry.special].label}
+                              </div>
+                            )}
+
+                            <div className="award-card-team">
+                              <div className="award-team-name">
+                                {entry.teamName || entry.projectName || 'To be announced'}
+                              </div>
+                              {entry.teamName && entry.projectName && (
+                                <div className="award-project-sub">{entry.projectName}</div>
+                              )}
+                            </div>
                           </div>
 
-                          <div className="award-card-team">
-                            <div className="award-team-name">
-                              {entry.teamName || entry.projectName || 'To be announced'}
+                          <div className="award-card-mid">
+                            {entry.teamLeader && (
+                              <div className="award-meta" data-label="Team Leader">
+                                <span className="award-meta-value">{entry.teamLeader}</span>
+                              </div>
+                            )}
+                            <div className="award-meta" data-label="Track">
+                              <span className="award-meta-value">{trackShort(entry.track)}</span>
                             </div>
-                            {entry.teamName && entry.projectName && (
-                              <div className="award-project-sub">{entry.projectName}</div>
+                            {entry.final != null && (
+                              <div className="award-meta" data-label="Score">
+                                <span className="award-meta-value">{entry.final.toFixed(1)}</span>
+                              </div>
                             )}
                           </div>
 
-                          {entry.teamLeader && (
-                            <div className="award-meta" data-label="Team Leader">
-                              <span className="award-meta-value">{entry.teamLeader}</span>
-                            </div>
-                          )}
-                          <div className="award-meta" data-label="Track">
-                            <span className="award-meta-value">{trackShort(entry.track)}</span>
-                          </div>
-                          {entry.final != null && (
-                            <div className="award-meta" data-label="Score">
-                              <span className="award-meta-value">{entry.final.toFixed(1)}</span>
+                          {(medalUrl || specialUrl) && (
+                            <div className="award-card-actions">
+                              <span className="award-actions-label">Download certificate</span>
+                              <div className="award-actions-btns">
+                                {medalUrl && (
+                                  <a
+                                    className="cert-btn"
+                                    href={medalUrl}
+                                    download={awardCertificateFilename(entry.booth, MEDAL_META[entry.medal].short)}
+                                    aria-label={`Download ${MEDAL_META[entry.medal].label} certificate for ${entry.booth}`}
+                                  >
+                                    <Download size={14} aria-hidden />
+                                    {MEDAL_META[entry.medal].short}
+                                  </a>
+                                )}
+                                {specialUrl && entry.special && (
+                                  <a
+                                    className={`cert-btn cert-btn-special special-${entry.special}`}
+                                    href={specialUrl}
+                                    download={awardCertificateFilename(entry.booth, SPECIAL_META[entry.special].label)}
+                                    aria-label={`Download ${SPECIAL_META[entry.special].label} certificate for ${entry.booth}`}
+                                  >
+                                    <Download size={14} aria-hidden />
+                                    {SPECIAL_META[entry.special].short}
+                                  </a>
+                                )}
+                              </div>
                             </div>
                           )}
                         </article>
-                      ))}
+                        );
+                      })}
                     </div>
                   ))}
                 </div>

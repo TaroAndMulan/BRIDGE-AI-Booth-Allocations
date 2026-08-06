@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { TEAMS, type Category, type Track } from './data';
 import importedAwards from './generated/awards.json';
+import { specialAwardOf } from './awardCertificates';
 import {
   entryFromTeam,
   groupAwards,
@@ -32,7 +33,7 @@ export function getBackupAwards(): AwardGroup[] {
   for (const award of importedAwards as ImportedAward[]) {
     const team = teamByBooth.get(String(award.booth).toUpperCase());
     if (!team) continue; // Can't place a booth we don't know — importer already warns.
-    entries.push(entryFromTeam(team, award.medal));
+    entries.push(entryFromTeam(team, award.medal, { special: specialAwardOf(team.id) }));
   }
   return groupAwards(entries);
 }
@@ -90,7 +91,7 @@ export function useLiveAwards(pollMs = 60000): LiveAwards & { reload: () => void
           const team = teamByBooth.get(String(row.booth).toUpperCase());
           const extra = { final: typeof row.final === 'number' ? row.final : null, rank };
           if (team) {
-            entries.push(entryFromTeam(team, medal, extra));
+            entries.push(entryFromTeam(team, medal, { ...extra, special: specialAwardOf(team.id) }));
           } else {
             // Booth not in our roster: fall back to the endpoint's own fields.
             entries.push({
@@ -101,6 +102,7 @@ export function useLiveAwards(pollMs = 60000): LiveAwards & { reload: () => void
               projectName: row.project ?? '',
               teamName: null,
               teamLeader: null,
+              special: null,
               ...extra,
             });
           }

@@ -20,10 +20,13 @@ npm run lint                # tsc --noEmit — the only "test"; there is no test
 npm run build               # validate-data-source → import:certificates → vite build → dist/
 ./deploy.sh                 # build + scp dist/* to the server
 
-npm run import:excel        # data/results.xlsx        → src/generated/teams.json
-npm run import:awards        # data/results_2.xlsx      → src/generated/awards.json
-npm run import:certificates # data/certificate/PDF/**   → public/certificates/ + src/generated/certificates.json
+npm run import:excel              # data/results.xlsx          → src/generated/teams.json
+npm run import:awards              # data/results_2.xlsx        → src/generated/awards.json
+npm run import:certificates       # data/certificate/PDF/**    → public/certificates/ + src/generated/certificates.json
+npm run import:award-certificates # data/certificate/PDF_AWARD → public/award-certificates/ + src/generated/award-certificates.json
 ```
+
+`import:award-certificates` needs the `pdftotext` binary (poppler-utils) at build time.
 
 Each importer accepts an alternate path: `npm run import:excel -- /path/to/file.xlsx`.
 There is no test runner; `npm run lint` (typecheck) is the check to run before finishing.
@@ -65,6 +68,13 @@ the end matters: `_A01` → `BAI-A01`. The folder and the ` 1`/` 2` batch label 
 build the URL straight from `team.id` with no lookup table — the perfect 1:1 booth↔certificate mapping
 is what makes this work.
 
+**Award certificates are the exception to name-based mapping.** The winners' PDFs in
+`data/certificate/PDF_AWARD/` are named only by number, so `import-award-certificates.ts` runs
+`pdftotext` and recovers the booth from the project title in the text (it matches `team.projectName`
+verbatim), plus the award from the "1st Place"/"Grand Prize"/"Popular Vote" line. Output:
+`public/award-certificates/<id>.pdf` (medal) and `<id>-<grand|popular>.pdf` (special), keyed in
+`src/generated/award-certificates.json`. A booth can hold both a medal and a special award.
+
 ## Tabs and routing
 
 `src/App.tsx` is the whole app shell. Three tabs, selected by URL hash (no router):
@@ -76,7 +86,12 @@ is what makes this work.
   scoreboard. The nav entry only appears once someone visits `#backup`.
 
 The awards board is 8 groups (4 categories × 2 tracks), each with Gold/Silver/Bronze + 2 Honorable
-Mentions. `VITE_AWARDS_API_URL` sets the live endpoint (a default is baked in).
+Mentions. On top of the medals sit two **cross-cutting special awards** — one Popular Award, two Grand
+Prizes — modeled in `awards.ts` (`SpecialAward`, `SPECIAL_META`) and attached to an `AwardEntry` in
+`awardsSource.ts` from the award-certificate manifest. They render as a badge, a "Special award" filter
+row, and per-card download buttons in `AwardsView.tsx`. Note the board only shows medal winners, so a
+special-award team must also hold a medal to appear (all three currently do). `VITE_AWARDS_API_URL`
+sets the live endpoint (a default is baked in).
 `VITE_DATA_SOURCE` (`excel` default | `mock`) chooses the bundled booth dataset; `mock` uses the small
 sample in `src/data.ts` for UI work.
 

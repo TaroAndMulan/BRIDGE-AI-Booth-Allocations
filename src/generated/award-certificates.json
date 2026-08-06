@@ -1,0 +1,260 @@
+{
+  "bai-a01": {
+    "medal": {
+      "type": "gold",
+      "version": "3b7b99ff"
+    },
+    "special": {
+      "award": "popular",
+      "version": "1bf8b022"
+    }
+  },
+  "bai-a02": {
+    "medal": {
+      "type": "silver",
+      "version": "ee9aa583"
+    }
+  },
+  "bai-a03": {
+    "medal": {
+      "type": "bronze",
+      "version": "79380784"
+    }
+  },
+  "bai-a04": {
+    "medal": {
+      "type": "honorable",
+      "version": "93fe7198"
+    }
+  },
+  "bai-a05": {
+    "medal": {
+      "type": "honorable",
+      "version": "b527995a"
+    }
+  },
+  "bai-a06": {
+    "medal": {
+      "type": "gold",
+      "version": "721052cd"
+    }
+  },
+  "bai-a07": {
+    "medal": {
+      "type": "silver",
+      "version": "d4a9a76e"
+    }
+  },
+  "bai-a08": {
+    "medal": {
+      "type": "bronze",
+      "version": "3cc37acb"
+    }
+  },
+  "bai-a09": {
+    "medal": {
+      "type": "honorable",
+      "version": "8fbcd003"
+    }
+  },
+  "bai-a10": {
+    "medal": {
+      "type": "honorable",
+      "version": "8f089254"
+    }
+  },
+  "bai-b01": {
+    "medal": {
+      "type": "gold",
+      "version": "c238b5d5"
+    }
+  },
+  "bai-b02": {
+    "medal": {
+      "type": "bronze",
+      "version": "36a5072f"
+    }
+  },
+  "bai-b03": {
+    "medal": {
+      "type": "silver",
+      "version": "d27840dd"
+    }
+  },
+  "bai-b04": {
+    "medal": {
+      "type": "honorable",
+      "version": "242ec7f0"
+    }
+  },
+  "bai-b05": {
+    "medal": {
+      "type": "honorable",
+      "version": "3878e42b"
+    }
+  },
+  "bai-b09": {
+    "medal": {
+      "type": "honorable",
+      "version": "6a2f5289"
+    }
+  },
+  "bai-b10": {
+    "medal": {
+      "type": "silver",
+      "version": "3cd0ef6b"
+    }
+  },
+  "bai-b11": {
+    "medal": {
+      "type": "gold",
+      "version": "67ff9789"
+    }
+  },
+  "bai-b12": {
+    "medal": {
+      "type": "bronze",
+      "version": "21dab789"
+    }
+  },
+  "bai-b13": {
+    "medal": {
+      "type": "honorable",
+      "version": "9985ab9b"
+    }
+  },
+  "bai-c01": {
+    "medal": {
+      "type": "silver",
+      "version": "ca8aec7f"
+    }
+  },
+  "bai-c02": {
+    "medal": {
+      "type": "bronze",
+      "version": "3f18ace1"
+    }
+  },
+  "bai-c06": {
+    "medal": {
+      "type": "honorable",
+      "version": "02ab0356"
+    }
+  },
+  "bai-c11": {
+    "medal": {
+      "type": "gold",
+      "version": "ba2a5638"
+    },
+    "special": {
+      "award": "grand",
+      "version": "03d186d9"
+    }
+  },
+  "bai-c13": {
+    "medal": {
+      "type": "honorable",
+      "version": "5b7db9ec"
+    }
+  },
+  "bai-c16": {
+    "medal": {
+      "type": "bronze",
+      "version": "0dc6b54c"
+    }
+  },
+  "bai-c19": {
+    "medal": {
+      "type": "honorable",
+      "version": "3fbe4f69"
+    }
+  },
+  "bai-c21": {
+    "medal": {
+      "type": "honorable",
+      "version": "321688fb"
+    }
+  },
+  "bai-c23": {
+    "medal": {
+      "type": "gold",
+      "version": "f1e0bdaa"
+    }
+  },
+  "bai-c29": {
+    "medal": {
+      "type": "silver",
+      "version": "0298e565"
+    }
+  },
+  "bai-d01": {
+    "medal": {
+      "type": "bronze",
+      "version": "10f5c615"
+    }
+  },
+  "bai-d03": {
+    "medal": {
+      "type": "gold",
+      "version": "431ded97"
+    }
+  },
+  "bai-d06": {
+    "medal": {
+      "type": "honorable",
+      "version": "6eca816b"
+    }
+  },
+  "bai-d07": {
+    "medal": {
+      "type": "silver",
+      "version": "21cdaa6d"
+    }
+  },
+  "bai-d09": {
+    "medal": {
+      "type": "honorable",
+      "version": "2ede00df"
+    }
+  },
+  "bai-d17": {
+    "medal": {
+      "type": "gold",
+      "version": "9b345530"
+    },
+    "special": {
+      "award": "grand",
+      "version": "e3382d7d"
+    }
+  },
+  "bai-d19": {
+    "medal": {
+      "type": "honorable",
+      "version": "68a7b676"
+    }
+  },
+  "bai-d20": {
+    "medal": {
+      "type": "honorable",
+      "version": "34773518"
+    }
+  },
+  "bai-d21": {
+    "medal": {
+      "type": "silver",
+      "version": "301d917d"
+    }
+  },
+  "bai-d24": {
+    "medal": {
+      "type": "bronze",
+      "version": "ea9c48fc"
+    }
+  },
+  "bai-d27": {
+    "medal": {
+      "type": "honorable",
+      "version": "3bda9a53"
+    }
+  }
+}

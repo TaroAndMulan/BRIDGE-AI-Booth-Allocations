@@ -17,8 +17,10 @@ data/*.xlsx
 data/*.pdf
 
 # The 90 per-team certificates (~51MB of source, one PDF per booth) and the
-# served copies. `npm run import:certificates` (part of the build) regenerates
-# public/certificates/ from the source; the committed manifest,
-# src/generated/certificates.json, is what dev reads.
+# winners' award certificates, plus their served copies. The import scripts (part
+# of the build) regenerate public/certificates/ and public/award-certificates/
+# from the source; the committed manifests, src/generated/certificates.json and
+# src/generated/award-certificates.json, are what dev reads.
 data/certificate/
 public/certificates/
+public/award-certificates/

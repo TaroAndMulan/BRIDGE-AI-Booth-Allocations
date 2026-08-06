@@ -223,6 +223,38 @@ broken link.
 > build regenerates `public/certificates/` from the source, which is what dev (`npm run dev`, no
 > build step) reads. Whoever holds the source PDFs is the one who deploys.
 
+### Winners' award certificates
+
+Separately from the 90 participation certificates, the **Awards** tab offers each winner their
+**award certificate** — the medal certificate (Gold/Silver/Bronze/Honorable) and, for the three
+cross-cutting winners, a **Grand Prize** or **Popular Award** certificate. Source PDFs live under
+`data/certificate/PDF_AWARD/`, one folder per category plus `Popular & Grand/`.
+
+Unlike the participation certificates, **their file names are just numbers** (`Clinical/1.pdf`) and
+reveal nothing. `npm run import:award-certificates` (also part of `npm run build`) recovers the booth
+from the **PDF's own text**: it runs `pdftotext`, reads the project title — which matches a team's
+`projectName` verbatim — and looks up the booth, then reads the award from the "1st Place" / "Grand
+Prize" / "Popular Vote" line. Requires the `pdftotext` binary (`poppler-utils`).
+
+It writes `src/generated/award-certificates.json` (`{ id: { medal?, special? } }`) and copies files to
+`public/award-certificates/<id>.pdf` (medal) and `<id>-<grand|popular>.pdf` (special). A booth can
+have both — the two Grand Prize winners are also category golds. The importer **fails without
+overwriting** on any PDF whose project matches no team or whose award is unreadable, and warns when a
+board medalist has no certificate or a certificate's medal disagrees with `awards.json`.
+
+```bash
+npm run import:award-certificates   # pdftotext → match → copy → award-certificates.json
+```
+
+> **Medical Education (category A) medal certificates are not in the folder** — only A01's Popular
+> Award is. Those cards show their medal badge but no medal-download button until the PDFs are added;
+> nothing breaks. `data/certificate/PDF_AWARD/` and `public/award-certificates/` are gitignored like
+> the other certificate sources; only the manifest is committed.
+
+The special awards drive three things in the Awards tab: a **Grand Prize / Popular Award badge** on the
+winner's card, a **Special award** filter row, and the per-card **download buttons**. See
+[docs/DATA.md](docs/DATA.md) for how they attach to `AwardEntry`.
+
 ### Announcement modal
 
 A one-off popup over the team list announces that certificates are ready
